@@ -1,8 +1,74 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Default light mode colors */
+  --background: #F2F0EA;
+  --foreground: #265767;
+
+  /* Heading sizes with line heights */
+  /* H-64 */
+  --h-64-140: 4rem; /* 64px */
+  --h-64-120: 4rem; /* 64px */
+  --lh-64-140: 5.6rem; /* 140% of 64px */
+  --lh-64-120: 4.8rem; /* 120% of 64px */
+
+  /* H-56 */
+  --h-56-140: 3.5rem; /* 56px */
+  --h-56-120: 3.5rem; /* 56px */
+  --lh-56-140: 4.9rem; /* 140% of 56px */
+  --lh-56-120: 4.2rem; /* 120% of 56px */
+
+  /* H-48 */
+  --h-48-140: 3rem; /* 48px */
+  --h-48-120: 3rem; /* 48px */
+  --lh-48-140: 4.2rem; /* 140% of 48px */
+  --lh-48-120: 3.6rem; /* 120% of 48px */
+
+  /* H-36 */
+  --h-36-140: 2.25rem; /* 36px */
+  --h-36-120: 2.25rem; /* 36px */
+  --lh-36-140: 3.15rem; /* 140% of 36px */
+  --lh-36-120: 2.7rem; /* 120% of 36px */
+
+  /* H-28 */
+  --h-28-140: 1.75rem; /* 28px */
+  --h-28-120: 1.75rem; /* 28px */
+  --lh-28-140: 2.45rem; /* 140% of 28px */
+  --lh-28-120: 2.1rem; /* 120% of 28px */
+
+  /* H-24 */
+  --h-24-140: 1.5rem; /* 24px */
+  --h-24-120: 1.5rem; /* 24px */
+  --lh-24-140: 2.1rem; /* 140% of 24px */
+  --lh-24-120: 1.8rem; /* 120% of 24px */
+
+  /* H-20 */
+  --h-20-140: 1.25rem; /* 20px */
+  --h-20-120: 1.25rem; /* 20px */
+  --lh-20-140: 1.75rem; /* 140% of 20px */
+  --lh-20-120: 1.5rem; /* 120% of 20px */
+
+  /* Paragraph sizes with 140% line height */
+  --p-20: 1.25rem; /* 20px */
+  --lh-p-20: 1.75rem; /* 140% of 20px */
+
+  --p-18: 1.125rem; /* 18px */
+  --lh-p-18: 1.575rem; /* 140% of 18px */
+
+  --p-16: 1rem; /* 16px */
+  --lh-p-16: 1.4rem; /* 140% of 16px */
+
+  --p-14: 0.875rem; /* 14px */
+  --lh-p-14: 1.225rem; /* 140% of 14px */
+
+  --p-12: 0.75rem; /* 12px */
+  --lh-p-12: 1.05rem; /* 140% of 12px */
+
+  --p-10: 0.625rem; /* 10px */
+  --lh-p-10: 0.875rem; /* 140% of 10px */
+
+  --p-8: 0.5rem; /* 8px */
+  --lh-p-8: 0.7rem; /* 140% of 8px */
 }
 
 @theme inline {
@@ -12,15 +78,117 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* Heading utility classes */
+.h-64-140 {
+  font-size: var(--h-64-140);
+  line-height: var(--lh-64-140);
+}
+
+.h-64-120 {
+  font-size: var(--h-64-140);
+  line-height: var(--lh-64-120);
+}
+
+.h-56-140 {
+  font-size: var(--h-56-140);
+  line-height: var(--lh-56-140);
+}
+
+.h-56-120 {
+  font-size: var(--h-56-140);
+  line-height: var(--lh-56-120);
+}
+
+.h-48-140 {
+  font-size: var(--h-48-140);
+  line-height: var(--lh-48-140);
+}
+
+.h-48-120 {
+  font-size: var(--h-48-140);
+  line-height: var(--lh-48-120);
+}
+
+.h-36-140 {
+  font-size: var(--h-36-140);
+  line-height: var(--lh-36-140);
+}
+
+.h-36-120 {
+  font-size: var(--h-36-140);
+  line-height: var(--lh-36-120);
+}
+
+.h-28-140 {
+  font-size: var(--h-28-140);
+  line-height: var(--lh-28-140);
+}
+
+.h-28-120 {
+  font-size: var(--h-28-140);
+  line-height: var(--lh-28-120);
+}
+
+.h-24-140 {
+  font-size: var(--h-24-140);
+  line-height: var(--lh-24-140);
+}
+
+.h-24-120 {
+  font-size: var(--h-24-140);
+  line-height: var(--lh-24-120);
+}
+
+.h-20-140 {
+  font-size: var(--h-20-140);
+  line-height: var(--lh-20-140);
+}
+
+.h-20-120 {
+  font-size: var(--h-20-140);
+  line-height: var(--lh-20-120);
+}
+
+/* Paragraph utility classes */
+.p-20 {
+  font-size: var(--p-20);
+  line-height: var(--lh-p-20);
+}
+
+.p-18 {
+  font-size: var(--p-18);
+  line-height: var(--lh-p-18);
+}
+
+.p-16 {
+  font-size: var(--p-16);
+  line-height: var(--lh-p-16);
+}
+
+.p-14 {
+  font-size: var(--p-14);
+  line-height: var(--lh-p-14);
+}
+
+.p-12 {
+  font-size: var(--p-12);
+  line-height: var(--lh-p-12);
+}
+
+.p-10 {
+  font-size: var(--p-10);
+  line-height: var(--lh-p-10);
+}
+
+.p-8 {
+  font-size: var(--p-8);
+  line-height: var(--lh-p-8);
+}
+
