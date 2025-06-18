@@ -1,16 +1,50 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import axiosInstance from '@/app/api/axiosInstance';
+import { RegisterData } from '@/types/auth';
+
+
 
 export default function RegisterForm() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState<RegisterData>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: ''
+  });
 
-  const handleSubmit = () => {
-    router.push('/auth/login');
-  }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      const response = await axiosInstance.post('/register', formData);
+      
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+        router.push('/auth/login');
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#CA9DFA] via-[#ABA7FE] to-[#91ADFF] px-4 sm:px-6 lg:px-8 transition-all duration-300">
@@ -19,9 +53,7 @@ export default function RegisterForm() {
           🎶 Create Account
         </h2>
 
-        <form 
-        onSubmit={handleSubmit}
-        className="space-y-4 sm:space-y-6 transition-all duration-300">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6 transition-all duration-300">
           {error && (
             <div className="bg-red-100 text-red-600 p-2 sm:p-3 P-14 md:P-16 rounded-xl shadow">
               {error}
@@ -38,6 +70,8 @@ export default function RegisterForm() {
                 name="firstName"
                 type="text"
                 required
+                value={formData.firstName}
+                onChange={handleChange}
                 className="mt-1 block w-full px-2 sm:px-3 py-2 P-12 md:P-14 bg-white border border-gray-600 rounded-xl shadow-sm focus:outline-none focus:border-transparent transition-all duration-300"
                 placeholder="Enter your first name"
               />
@@ -51,6 +85,8 @@ export default function RegisterForm() {
                 name="lastName"
                 type="text"
                 required
+                value={formData.lastName}
+                onChange={handleChange}
                 className="mt-1 block w-full px-2 sm:px-3 py-2 P-12 md:P-14 bg-white border border-gray-600 rounded-xl shadow-sm focus:outline-none focus:border-transparent transition-all duration-300"
                 placeholder="Enter your last name"
               />
@@ -67,6 +103,8 @@ export default function RegisterForm() {
               type="email"
               autoComplete="email"
               required
+              value={formData.email}
+              onChange={handleChange}
               className="mt-1 block w-full px-2 sm:px-3 py-2 P-12 md:P-14 bg-white border border-gray-600 rounded-xl shadow-sm focus:outline-none focus:border-transparent transition-all duration-300"
               placeholder="Enter your email"
             />
@@ -82,6 +120,8 @@ export default function RegisterForm() {
               type="password"
               autoComplete="new-password"
               required
+              value={formData.password}
+              onChange={handleChange}
               className="mt-1 block w-full px-2 sm:px-3 py-2 P-12 md:P-14 bg-white border border-gray-600 rounded-xl shadow-sm focus:outline-none focus:border-transparent transition-all duration-300"
               placeholder="Enter your password"
             />
@@ -90,9 +130,10 @@ export default function RegisterForm() {
           <div className='flex flex-col gap-2 sm:gap-3 transition-all duration-300'>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-xl shadow-md P-16 md:P-18 font-medium text-white bg-gradient-to-tl from-[#CA9DFA] via-[#ABA7FE] to-[#91ADFF] hover:bg-gradient-to-tl hover:from-[#c490fc] hover:via-[#938ef8] hover:to-[#7b9af8] transition-all duration-300 cursor-pointer"
+              disabled={isLoading}
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-xl shadow-md P-16 md:P-18 font-medium text-white bg-gradient-to-tl from-[#CA9DFA] via-[#ABA7FE] to-[#91ADFF] hover:bg-gradient-to-tl hover:from-[#c490fc] hover:via-[#938ef8] hover:to-[#7b9af8] transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Create Account
+              {isLoading ? 'Creating Account...' : 'Create Account'}
             </button>
             <div className='flex items-center justify-center'>
               <p className='P-12 md:P-14 text-[#dee2e9] transition-all duration-300'>Already have an Account? <Link href={'/auth/login'} className='P-12 md:P-14 border-b'>Sign In</Link></p>
