@@ -2,28 +2,35 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function RegisterForm() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
+  const handleSubmit = () => {
+    router.push('/auth/login');
+  }
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#FFFBF0] via-[#FFE8F0] to-[#E4F1FF] dark:from-[#2A2A2A] dark:via-[#2F2F2F] dark:to-[#3C3C3C] px-4">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white/90 dark:bg-[#2F2F2F]/80 backdrop-blur-md rounded-3xl shadow-xl">
-        <h2 className="text-center text-3xl font-bold text-[#FF6B6B] dark:text-[#FDCBCA]">
-          🎶 Create Your Account
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#CA9DFA] via-[#ABA7FE] to-[#91ADFF] px-4 sm:px-6 lg:px-8 transition-all duration-300">
+      <div className="max-w-md w-full space-y-6 sm:space-y-8 p-6 lg:p-8 bg-gradient-to-br from-[#9470e8] via-[#9352e8] to-[#812edf] rounded-3xl shadow-xl transition-all duration-300">
+        <h2 className="text-center h-24-120 md:h-28-120 lg:h-36-120 font-bold text-[#89b6da] transition-all duration-300">
+          🎶 Create Account
         </h2>
 
-        <form className="space-y-6">
+        <form 
+        onSubmit={handleSubmit}
+        className="space-y-4 sm:space-y-6 transition-all duration-300">
           {error && (
-            <div className="bg-red-100 dark:bg-red-900/50 text-red-600 dark:text-red-200 p-3 rounded-xl text-sm shadow">
+            <div className="bg-red-100 text-red-600 p-2 sm:p-3 P-14 md:P-16 rounded-xl shadow">
               {error}
             </div>
           )}
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 transition-all duration-300">
             <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-[#333] dark:text-[#DDD0C8]">
+              <label htmlFor="firstName" className="block P-14 md:P-16 font-medium text-white transition-all duration-300">
                 First Name
               </label>
               <input
@@ -31,12 +38,12 @@ export default function RegisterForm() {
                 name="firstName"
                 type="text"
                 required
-                className="mt-1 block w-full px-3 py-2 bg-[#FFF0F3] dark:bg-[#393939] border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FFA69E] dark:focus:ring-[#FDCBCA] focus:border-transparent"
+                className="mt-1 block w-full px-2 sm:px-3 py-2 P-12 md:P-14 bg-white border border-gray-600 rounded-xl shadow-sm focus:outline-none focus:border-transparent transition-all duration-300"
                 placeholder="Enter your first name"
               />
             </div>
             <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-[#333] dark:text-[#DDD0C8]">
+              <label htmlFor="lastName" className="block P-14 md:P-16 font-medium text-white transition-all duration-300">
                 Last Name
               </label>
               <input
@@ -44,14 +51,14 @@ export default function RegisterForm() {
                 name="lastName"
                 type="text"
                 required
-                className="mt-1 block w-full px-3 py-2 bg-[#FFF0F3] dark:bg-[#393939] border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FFA69E] dark:focus:ring-[#FDCBCA] focus:border-transparent"
+                className="mt-1 block w-full px-2 sm:px-3 py-2 P-12 md:P-14 bg-white border border-gray-600 rounded-xl shadow-sm focus:outline-none focus:border-transparent transition-all duration-300"
                 placeholder="Enter your last name"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-[#333] dark:text-[#DDD0C8]">
+            <label htmlFor="email" className="block P-14 md:P-16 font-medium text-white transition-all duration-300">
               Email Address
             </label>
             <input
@@ -60,13 +67,13 @@ export default function RegisterForm() {
               type="email"
               autoComplete="email"
               required
-              className="mt-1 block w-full px-3 py-2 bg-[#FFF0F3] dark:bg-[#393939] border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FFA69E] dark:focus:ring-[#FDCBCA] focus:border-transparent"
+              className="mt-1 block w-full px-2 sm:px-3 py-2 P-12 md:P-14 bg-white border border-gray-600 rounded-xl shadow-sm focus:outline-none focus:border-transparent transition-all duration-300"
               placeholder="Enter your email"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-[#333] dark:text-[#DDD0C8]">
+            <label htmlFor="password" className="block P-14 md:P-16 font-medium text-white transition-all duration-300">
               Password
             </label>
             <input
@@ -75,18 +82,21 @@ export default function RegisterForm() {
               type="password"
               autoComplete="new-password"
               required
-              className="mt-1 block w-full px-3 py-2 bg-[#FFF0F3] dark:bg-[#393939] border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FFA69E] dark:focus:ring-[#FDCBCA] focus:border-transparent"
+              className="mt-1 block w-full px-2 sm:px-3 py-2 P-12 md:P-14 bg-white border border-gray-600 rounded-xl shadow-sm focus:outline-none focus:border-transparent transition-all duration-300"
               placeholder="Enter your password"
             />
           </div>
 
-          <div>
+          <div className='flex flex-col gap-2 sm:gap-3 transition-all duration-300'>
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-xl shadow-md text-sm font-medium text-white bg-[#FFA69E] hover:bg-[#F67D75] dark:bg-[#FDCBCA] dark:hover:bg-[#FBA4A0] transition-all duration-200"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-xl shadow-md P-16 md:P-18 font-medium text-white bg-gradient-to-tl from-[#CA9DFA] via-[#ABA7FE] to-[#91ADFF] hover:bg-gradient-to-tl hover:from-[#c490fc] hover:via-[#938ef8] hover:to-[#7b9af8] transition-all duration-300 cursor-pointer"
             >
               Create Account
             </button>
+            <div className='flex items-center justify-center'>
+              <p className='P-12 md:P-14 text-[#dee2e9] transition-all duration-300'>Already have an Account? <Link href={'/auth/login'} className='P-12 md:P-14 border-b'>Sign In</Link></p>
+            </div>
           </div>
         </form>
       </div>
