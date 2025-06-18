@@ -42,9 +42,9 @@ const Navbar = () => {
                     <Image src={'/EmoTunes-logo.png'} width={120} height={70} alt='EmoTunes' className='w-[150px] h-[50px]'/>
                 </div>
                 <ul className='flex items-center justify-center gap-4'>
-                    <Link href={'/'} className='p-2 rounded-[10px]'><li className='text-[#265767] dark:text-[#DDD0C8] h-24-120 font-[600]'>Home</li></Link>
-                    <Link href={'#'} className='p-2 rounded-[10px]'><li className='text-[#265767] dark:text-[#DDD0C8] h-24-120 font-[600]'>Search</li></Link>
-                    <Link href={'#'} className='p-2 rounded-[10px]'><li className='text-[#265767] dark:text-[#DDD0C8] h-24-120 font-[600]'>Your PlayList</li></Link>
+                    <Link href={'/'} className='p-2 rounded-[10px]'><li className='text-[#DDD0C8] h-24-120 font-[600]'>Home</li></Link>
+                    <Link href={'#'} className='p-2 rounded-[10px]'><li className='text-[#DDD0C8] h-24-120 font-[600]'>Search</li></Link>
+                    <Link href={'#'} className='p-2 rounded-[10px]'><li className='text-[#DDD0C8] h-24-120 font-[600]'>Your PlayList</li></Link>
                 </ul>
                 <div className='flex items-center justify-center gap-4'>
                     <button 
@@ -59,7 +59,7 @@ const Navbar = () => {
                     </button>
                     {!isLoggedIn ? (
                         <>
-                            <button 
+                            <button
                                 onClick={handleSignUp}
                                 className='px-3 py-2 border-[2px] border-[#265767] dark:border-[#DDD0C8] rounded-[16px] text-[#265767] dark:text-[#DDD0C8] P-20 font-[600]'
                             >
