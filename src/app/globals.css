@@ -1,9 +1,10 @@
 @import "tailwindcss";
+@tailwind utilities;
 
 :root {
   /* Default light mode colors */
   --background: #F2F0EA;
-  --foreground: #265767;
+  --foreground: #464848;
 
   /* Heading sizes with line heights */
   /* H-64 */
@@ -71,127 +72,50 @@
   --lh-P-8: 0.7rem; /* 140% of 8px */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html.light {
+  --background: #F2F0EA;
+  --foreground: #464848;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-  transition: background-color 0.3s ease, color 0.3s ease;
+html.dark {
+  --background: #464848;
+  --foreground: #F2F0EA;
+}
+
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: Arial, Helvetica, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
 }
 
 @layer utilities {
   /* Heading utility classes */
-  .h-64-140 {
-    font-size: var(--h-64-140);
-    line-height: var(--lh-64-140);
-  }
-
-  .h-64-120 {
-    font-size: var(--h-64-140);
-    line-height: var(--lh-64-120);
-  }
-
-  .h-56-140 {
-    font-size: var(--h-56-140);
-    line-height: var(--lh-56-140);
-  }
-
-  .h-56-120 {
-    font-size: var(--h-56-140);
-    line-height: var(--lh-56-120);
-  }
-
-  .h-48-140 {
-    font-size: var(--h-48-140);
-    line-height: var(--lh-48-140);
-  }
-
-  .h-48-120 {
-    font-size: var(--h-48-140);
-    line-height: var(--lh-48-120);
-  }
-
-  .h-36-140 {
-    font-size: var(--h-36-140);
-    line-height: var(--lh-36-140);
-  }
-
-  .h-36-120 {
-    font-size: var(--h-36-140);
-    line-height: var(--lh-36-120);
-  }
-
-  .h-28-140 {
-    font-size: var(--h-28-140);
-    line-height: var(--lh-28-140);
-  }
-
-  .h-28-120 {
-    font-size: var(--h-28-140);
-    line-height: var(--lh-28-120);
-  }
-
-  .h-24-140 {
-    font-size: var(--h-24-140);
-    line-height: var(--lh-24-140);
-  }
-
-  .h-24-120 {
-    font-size: var(--h-24-140);
-    line-height: var(--lh-24-120);
-  }
-
-  .h-20-140 {
-    font-size: var(--h-20-140);
-    line-height: var(--lh-20-140);
-  }
-
-  .h-20-120 {
-    font-size: var(--h-20-140);
-    line-height: var(--lh-20-120);
-  }
+  .h-64-140 { font-size: var(--h-64-140); line-height: var(--lh-64-140); }
+  .h-64-120 { font-size: var(--h-64-140); line-height: var(--lh-64-120); }
+  .h-56-140 { font-size: var(--h-56-140); line-height: var(--lh-56-140); }
+  .h-56-120 { font-size: var(--h-56-140); line-height: var(--lh-56-120); }
+  .h-48-140 { font-size: var(--h-48-140); line-height: var(--lh-48-140); }
+  .h-48-120 { font-size: var(--h-48-140); line-height: var(--lh-48-120); }
+  .h-36-140 { font-size: var(--h-36-140); line-height: var(--lh-36-140); }
+  .h-36-120 { font-size: var(--h-36-140); line-height: var(--lh-36-120); }
+  .h-28-140 { font-size: var(--h-28-140); line-height: var(--lh-28-140); }
+  .h-28-120 { font-size: var(--h-28-140); line-height: var(--lh-28-120); }
+  .h-24-140 { font-size: var(--h-24-140); line-height: var(--lh-24-140); }
+  .h-24-120 { font-size: var(--h-24-140); line-height: var(--lh-24-120); }
+  .h-20-140 { font-size: var(--h-20-140); line-height: var(--lh-20-140); }
+  .h-20-120 { font-size: var(--h-20-140); line-height: var(--lh-20-120); }
 
   /* Paragraph utility classes */
-  .P-20 {
-    font-size: var(--P-20);
-    line-height: var(--lh-P-20);
-  }
-
-  .P-18 {
-    font-size: var(--P-18);
-    line-height: var(--lh-P-18);
-  }
-
-  .P-16 {
-    font-size: var(--P-16);
-    line-height: var(--lh-P-16);
-  }
-
-  .P-14 {
-    font-size: var(--P-14);
-    line-height: var(--lh-P-14);
-  }
-
-  .P-12 {
-    font-size: var(--P-12);
-    line-height: var(--lh-P-12);
-  }
-
-  .P-10 {
-    font-size: var(--P-10);
-    line-height: var(--lh-P-10);
-  }
-
-  .P-8 {
-    font-size: var(--P-8);
-    line-height: var(--lh-P-8);
-  }
+  .P-20 { font-size: var(--P-20); line-height: var(--lh-P-20); }
+  .P-18 { font-size: var(--P-18); line-height: var(--lh-P-18); }
+  .P-16 { font-size: var(--P-16); line-height: var(--lh-P-16); }
+  .P-14 { font-size: var(--P-14); line-height: var(--lh-P-14); }
+  .P-12 { font-size: var(--P-12); line-height: var(--lh-P-12); }
+  .P-10 { font-size: var(--P-10); line-height: var(--lh-P-10); }
+  .P-8 { font-size: var(--P-8); line-height: var(--lh-P-8); }
 }
 
 /* Add responsive variants */
@@ -271,4 +195,3 @@ body {
     .xl\:P-8 { font-size: var(--P-8); line-height: var(--lh-P-8); }
   }
 }
-
