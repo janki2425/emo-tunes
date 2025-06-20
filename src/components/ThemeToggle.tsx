@@ -26,16 +26,16 @@ export default function ThemeToggle() {
       {resolvedTheme === 'dark' ? (
         <Image
           src='/light-mode.svg'
-          width={40}
-          height={40}
+          width={30}
+          height={30}
           alt='Switch to light mode'
           priority
         />
       ) : (
         <Image
           src='/dark-mode.svg'
-          width={40}
-          height={40}
+          width={30}
+          height={30}
           alt='Switch to dark mode'
           priority
         />
