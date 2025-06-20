@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/common/Navbar";
 import { Providers } from "@/context/ThemeContext";
 import { usePathname } from "next/navigation";
+import AuthUser from "@/components/AuthUser";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,7 +28,10 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased transition-colors duration-300`}>
         <Providers>
           {pathName !== '/auth/register' && pathName !== '/auth/login' && (
+            <>
+            <AuthUser/>
             <Navbar/>
+            </>
           )}
           {children}
         </Providers>

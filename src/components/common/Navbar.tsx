@@ -7,101 +7,154 @@ import { useRouter } from 'next/navigation';
 import ThemeToggle from '../ThemeToggle';
 
 const Navbar = () => {
-    const router = useRouter();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [showDropdown, setShowDropdown] = useState(false);
+    const [activeTab, setActiveTab] = useState('Home');
+    const [isVisible, setIsVisible] = useState(true);
+    const [lastScrollY, setLastScrollY] = useState(0);
+    
+    const navItems = [
+        { 
+            name: 'Home', 
+            icon: '/navbar/home.svg', 
+            href: '/',
+            gradient: 'from-purple-500 to-pink-500'
+        },
+        { 
+            name: 'Search', 
+            icon: '/navbar/search.svg', 
+            href: '#',
+            gradient: 'from-blue-500 to-cyan-500'
+        },
+        { 
+            name: 'PlayList', 
+            icon: '/navbar/playlist.svg', 
+            href: '#',
+            gradient: 'from-green-500 to-emerald-500'
+        },
+        { 
+            name: 'Premium', 
+            icon: '/EmoTunes-logo-white.png', 
+            href: '#',
+            gradient: 'from-yellow-500 to-orange-500'
+        }
+    ];
 
+    // Auto-hide navbar on scroll
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        setIsLoggedIn(!!token);
-    }, []);
+        const controlNavbar = () => {
+            if (typeof window !== 'undefined') {
+                if (window.scrollY > lastScrollY && window.scrollY > 100) {
+                    setIsVisible(false);
+                } else {
+                    setIsVisible(true);
+                }
+                setLastScrollY(window.scrollY);
+            }
+        };
 
-    const handleSignUp = () => {
-        router.push('/auth/register');
-    }
-
-    const handleSignIn = () => {
-        router.push('/auth/login');
-    }
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        setIsLoggedIn(false);
-        router.push('/');
-    }
-
-    const toggleDropdown = () => {
-        setShowDropdown(!showDropdown);
-    }
-
+        if (typeof window !== 'undefined') {
+            window.addEventListener('scroll', controlNavbar);
+            return () => window.removeEventListener('scroll', controlNavbar);
+        }
+    }, [lastScrollY]);
+    
     return (
-        <div className="w-full h-[72px] bg-gradient-to-br from-black via-blue-400 to-indigo-400 dark:from-gray-700 dark:via-blue-900 dark:to-indigo-900 shadow">
-            <nav className='h-full flex items-center justify-between px-4'>
-                <div className='h-full flex items-center'>
-                    <Image src={'/EmoTunes-logo.png'} width={120} height={70} alt='EmoTunes' className='w-[150px] h-[50px]'/>
-                </div>
-                <ul className='flex items-center justify-center gap-4'>
-                    <Link href={'/'} className='p-2 rounded-[10px]'><li className='text-[#DDD0C8] h-24-120 font-[600]'>Home</li></Link>
-                    <Link href={'#'} className='p-2 rounded-[10px]'><li className='text-[#DDD0C8] h-24-120 font-[600]'>Search</li></Link>
-                    <Link href={'#'} className='p-2 rounded-[10px]'><li className='text-[#DDD0C8] h-24-120 font-[600]'>Your PlayList</li></Link>
-                </ul>
-                <div className='flex items-center justify-center gap-4'>
-                    <ThemeToggle/>
-                    {!isLoggedIn ? (
-                        <>
-                            <button
-                                onClick={handleSignUp}
-                                className='px-3 py-2 border-[2px] border-[#265767] dark:border-[#DDD0C8] rounded-[16px] text-[#265767] dark:text-[#DDD0C8] P-20 font-[600]'
-                            >
-                                Sign Up
-                            </button>
-                            <button 
-                                onClick={handleSignIn}
-                                className='px-3 py-2 border-[2px] border-[#DDD0C8] bg-[#265767] dark:bg-[#DDD0C8] dark:text-[#265767] text-white P-20 font-[600] rounded-[16px]'
-                            >
-                                Sign In
-                            </button>
-                        </>
-                    ) : (
-                        <div className="relative">
-                            <button 
-                                onClick={toggleDropdown}
-                                className='p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'
-                            >
-                                <Image src={'/user-icon.svg'} width={40} height={40} alt='user'/>
-                            </button>
-                            {showDropdown && (
-                                <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-[#4d4d4d] rounded-xl shadow-lg py-2 z-10">
-                                    <button
-                                        onClick={() => {
-                                            // router.push('/profile');
-                                            setShowDropdown(false);
-                                        }}
-                                        className="block w-full text-left px-4 py-2 text-[#265767] dark:text-[#DDD0C8] hover:bg-gray-100 dark:hover:bg-gray-700 P-14"
-                                    >
-                                        Profile
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            // router.push('/settings');
-                                            setShowDropdown(false);
-                                        }}
-                                        className="block w-full text-left px-4 py-2 text-[#265767] dark:text-[#DDD0C8] hover:bg-gray-100 dark:hover:bg-gray-700 P-14"
-                                    >
-                                        Settings
-                                    </button>
-                                    <button
-                                        onClick={handleLogout}
-                                        className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700 P-14"
-                                    >
-                                        Logout
-                                    </button>
+        <div className={`w-full h-[80px] z-50 fixed bottom-0 transition-all duration-500 ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}>
+            {/* Glassmorphism background */}
+            <div className="absolute inset-0 bg-white/10 dark:bg-gray-900/20 backdrop-blur-xl border-t border-white/20 dark:border-gray-700/30">
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent dark:from-white/5"></div>
+                
+                {/* Animated background particles */}
+                {/* <div className="absolute inset-0 overflow-hidden">
+                    <div className="absolute top-2 left-1/4 w-1 h-1 bg-purple-400 rounded-full opacity-30 animate-pulse"></div>
+                    <div className="absolute top-4 right-1/3 w-0.5 h-0.5 bg-pink-400 rounded-full opacity-40 animate-pulse delay-100"></div>
+                    <div className="absolute bottom-4 left-1/3 w-1.5 h-1.5 bg-blue-400 rounded-full opacity-20 animate-pulse delay-200"></div>
+                </div> */}
+            </div>
+
+            <nav className='relative h-full flex items-center justify-center px-4'>
+                {/* Active tab indicator */}
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-60"></div>
+                
+                <div className='flex items-center justify-around w-full max-w-md'>
+                    {navItems.map((item) => (
+                        <Link 
+                            key={item.name} 
+                            href={item.href}
+                            className="group relative"
+                            onClick={() => setActiveTab(item.name)}
+                        >
+                            <div className={`relative flex flex-col items-center gap-1 px-3 py-2 rounded-2xl transition-all duration-300 transform hover:scale-110 ${
+                                activeTab === item.name 
+                                    ? 'bg-white/20 dark:bg-gray-800/40 shadow-lg scale-105' 
+                                    : 'hover:bg-white/10 dark:hover:bg-gray-800/20'
+                            }`}>
+                                
+                                {/* Active tab glow effect */}
+                                {activeTab === item.name && (
+                                    <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${item.gradient} opacity-20 blur-sm animate-pulse`}></div>
+                                )}
+                                
+                                {/* Icon container */}
+                                <div className="relative z-10">
+                                    {activeTab === item.name ? (
+                                        <div className={`p-2 rounded-xl bg-gradient-to-r ${item.gradient} shadow-lg`}>
+                                            <Image 
+                                                src={item.icon} 
+                                                width={20} 
+                                                height={20} 
+                                                alt={item.name} 
+                                                className={item.name === 'Premium' ? '' : 'invert'}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <div className="p-2 rounded-xl bg-gray-200/20 dark:bg-gray-700/20 group-hover:bg-gray-200/40 dark:group-hover:bg-gray-700/40 transition-colors">
+                                            <Image 
+                                                src={item.icon} 
+                                                width={20} 
+                                                height={20} 
+                                                alt={item.name} 
+                                                className={`transition-all duration-300 ${
+                                                    item.name === 'Premium' 
+                                                        ? 'group-hover:brightness-110' 
+                                                        : 'invert opacity-70 group-hover:opacity-100'
+                                                }`}
+                                            />
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
-                    )}
+                                
+                                {/* Label */}
+                                <p className={`text-xs font-medium transition-all duration-300 ${
+                                    activeTab === item.name 
+                                        ? 'text-white dark:text-white font-semibold' 
+                                        : 'text-gray-300 dark:text-gray-400 group-hover:text-white dark:group-hover:text-gray-200'
+                                }`}>
+                                    {item.name}
+                                </p>
+                                
+                                {/* Active dot indicator */}
+                                {activeTab === item.name && (
+                                    <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full animate-ping"></div>
+                                )}
+                            </div>
+                            
+                            {/* Ripple effect */}
+                            <div className="absolute inset-0 rounded-2xl opacity-0 group-active:opacity-30 bg-white transition-opacity duration-150 pointer-events-none"></div>
+                        </Link>
+                    ))}
+                </div>
+                
+                {/* Theme toggle in corner */}
+                <div className="hidden md:flex absolute right-4 top-1/2 transform -translate-y-1/2 transition-all duration-300">
+                    <div className="rounded-full bg-white/10 dark:bg-gray-800/20 backdrop-blur-sm hover:bg-white/20 dark:hover:bg-gray-800/40 transition-colors">
+                        <ThemeToggle />
+                    </div>
                 </div>
             </nav>
+            
+            {/* Bottom safe area for phones with home indicators */}
+            <div className="h-2 bg-gradient-to-t from-black/10 to-transparent dark:from-white/5"></div>
         </div>
     )
 }

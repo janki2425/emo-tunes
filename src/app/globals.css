@@ -92,6 +92,13 @@ html.dark {
 }
 
 @layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
   /* Heading utility classes */
   .h-64-140 { font-size: var(--h-64-140); line-height: var(--lh-64-140); }
   .h-64-120 { font-size: var(--h-64-140); line-height: var(--lh-64-120); }
