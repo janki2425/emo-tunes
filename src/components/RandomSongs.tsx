@@ -33,6 +33,18 @@ const RandomSongs = () => {
     fetchSongs();
   }, []);
 
+    // Prevent background scroll when modal is open
+    useEffect(() => {
+      if (modalSong) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = 'auto';
+      }
+      return () => {
+        document.body.style.overflow = 'auto';
+      };
+    }, [modalSong]);
+
   // Modal close handler
   const closeModal = () => setModalSong(null);
 
@@ -100,8 +112,8 @@ const RandomSongs = () => {
       {/* Modal Popup */}
       {modalSong && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={closeModal}>
-          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-2xl px-6 py-8 max-w-xs md:max-w-md w-full relative" onClick={e => e.stopPropagation()}>
-            <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 dark:hover:text-white text-2xl" onClick={closeModal}>&times;</button>
+          <div className="auth-custom-bg rounded-xl shadow-2xl px-6 py-8 max-w-xs md:max-w-md w-full relative" onClick={e => e.stopPropagation()}>
+            <button className="absolute top-2 right-2 moodText-custom-color-text text-2xl" onClick={closeModal}>&times;</button>
             <h2 className="font-bold text-lg mb-2 text-center">{modalSong.name}</h2>
             <p className="text-center text-gray-500 mb-4">{modalSong.artist}</p>
             {/* Spotify Embed */}
