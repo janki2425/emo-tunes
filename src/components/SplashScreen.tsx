@@ -310,8 +310,8 @@ const SplashScreen = () => {
           <Image
             src="/EmoTunes-logo.png"
             alt="EmoTunes Logo"
-            width={120}
-            height={120}
+            width={170}
+            height={170}
             className="mx-auto drop-shadow-2xl"
           />
         </motion.div>
