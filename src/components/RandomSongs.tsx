@@ -64,8 +64,12 @@ const RandomSongs = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             // animate={{ opacity: 1, scale: 1 }}
             whileInView={{opacity:1}}
-            // whileHover={{ scale: 1.0005 }}
-            transition={{ duration: 1, delay: index * 0.05 }}
+            whileHover={{
+              rotate: [0, 0, 0, 0]
+            }}
+            transition={{
+              rotate: { type: 'tween', duration: 0.5, ease: 'easeInOut' }
+            }}
           >
             <a href={song.url} onClick={e => { e.preventDefault(); setModalSong(song); }}>
                 <div
