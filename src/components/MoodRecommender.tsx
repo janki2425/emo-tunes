@@ -21,6 +21,7 @@ const MoodRecommender: React.FC<MoodRecommenderProps> = ({
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
+  const [resetSignal, setResetSignal] = useState(0);
 
   const getMoodMusic = async (mood: string) => {
     setSearchMode('card');
@@ -94,7 +95,7 @@ const MoodRecommender: React.FC<MoodRecommenderProps> = ({
       {/* Desktop & tablet: show cards and text input as before */}
       <div className={isResultShown ? 'hidden md:block' : ''}>
         <h3 className='P-18 md:h-24-120 font-[600] pl-2 md:pl-4 pt-8 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent'>CHOOSE YOUR MOOD {'~'}</h3>
-        <MoodCards onSelectMood={getMoodMusic} />
+        <MoodCards onSelectMood={getMoodMusic} resetSignal={resetSignal} />
       </div>
 
       <div className={`flex-col md:flex-row gap-4 sm:gap-6 ${isResultShown ? 'hidden md:flex' : 'flex'}`}>
@@ -125,7 +126,7 @@ const MoodRecommender: React.FC<MoodRecommenderProps> = ({
           {songs.length > 0 && (
             <button
               className="my-4 px-4 py-2 P-12 md:P-18 rounded-lg bg-gray-300 dark:bg-gray-700 text-black dark:text-white font-semibold hover:bg-gray-400 dark:hover:bg-gray-600 transition"
-              onClick={() => { setSongs([]); setSearchMode(null); setSelectedMood(null); setText(''); setIsResultShown(false); setNoResults(false); }}
+              onClick={() => { setSongs([]); setSearchMode(null); setSelectedMood(null); setText(''); setIsResultShown(false); setNoResults(false); setResetSignal(rs => rs + 1); }}
             >
               ← Back to Search
             </button>
@@ -149,7 +150,7 @@ const MoodRecommender: React.FC<MoodRecommenderProps> = ({
         <div className="justify-center pt-4 hidden md:flex">
           <button
             className="px-6 py-2 rounded-lg P-12 md:P-18 bg-gray-300 dark:bg-gray-700 text-black dark:text-white font-semibold hover:bg-gray-400 dark:hover:bg-gray-600 transition"
-            onClick={() => { setSearchMode(null); setSelectedMood(null); setSongs([]); setText(''); setIsResultShown(false); setNoResults(false); }}
+            onClick={() => { setSearchMode(null); setSelectedMood(null); setSongs([]); setText(''); setIsResultShown(false); setNoResults(false); setResetSignal(rs => rs + 1); }}
           >
             Start Over
           </button>

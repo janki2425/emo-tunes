@@ -5,9 +5,10 @@ import { motion, useAnimation, useMotionValue } from 'framer-motion';
 
 type Props = {
   onSelectMood: (mood: string) => void;
+  resetSignal?: any;
 };
 
-const MoodCards: React.FC<Props> = ({ onSelectMood }) => {
+const MoodCards: React.FC<Props> = ({ onSelectMood, resetSignal }) => {
   const [direction, setDirection] = useState<'left' | 'right'>('left');
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -164,6 +165,11 @@ const MoodCards: React.FC<Props> = ({ onSelectMood }) => {
     setSelectedMood(moodName);
     onSelectMood(moodName);
   };
+
+  // Clear selectedMood when resetSignal changes
+  useEffect(() => {
+    setSelectedMood(null);
+  }, [resetSignal]);
 
   return (
     <div className="relative">
