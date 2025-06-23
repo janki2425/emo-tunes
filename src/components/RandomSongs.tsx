@@ -26,17 +26,17 @@ const RandomSongs = () => {
     <div className="w-full mx-auto p-2 md:p-6">
       {/* Header */}
         <div className="flex items-center justify-start gap-2 mb-8">
-            <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-18 font-[500] rounded-[20px]'>All</button>
-            <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-18 font-[500] rounded-[20px]'>artist</button>
+            <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-14 md:P-18 font-[500] rounded-[20px] transition-all duration-300'>All</button>
+            <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-14 md:P-18 font-[500] rounded-[20px] transition-all duration-300'>artist</button>
         </div>
 
       {/* Songs Grid */}
-      <div className={`grid gap-6 ${isSmallMobile ? 'grid-cols-1' : isMobile ? 'grid-cols-2' : ''} md:grid-cols-3 lg:grid-cols-4 transition-all duration-300`}>
+      <div className={`grid gap-6 ${isSmallMobile ? 'grid-cols-2' : isMobile ? 'grid-cols-3' : ''} md:grid-cols-4 xl:grid-cols-5 transition-all duration-300`}>
         {allSongs.map((song, index) => (
-          <div key={index}>
+          <div key={index} className=''>
             <a href={song.url}>
                 <div
-                className={`group relative bg-white dark:bg-gray-900 rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl`}
+                className={`group relative bg-white dark:bg-gray-900 rounded-lg lg:rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl`}
                 style={{ animationDelay: `${index * 100}ms` }}
             >
                 {/* Background gradient */}
@@ -51,17 +51,17 @@ const RandomSongs = () => {
                     width={192}
                     height={192}
                     alt={song.name}
-                    className="w-full object-cover rounded-t-2xl shadow-lg"
+                    className="w-full object-cover lg:rounded-t-2xl rounded-t-lg shadow-lg transition-all duration-300"
                     />
                 </div>
                 </div>
 
                 {/* Song Info */}
-                <div className="p-6">
-                <h3 className="font-bold text-lg text-gray-900 dark:text-white mb-1 truncate">
+                <div className="p-2 md:p-4 lg:p-6 transition-all duration-300">
+                <h3 className="font-bold P-16 lg:h-24-120 text-gray-900 dark:text-white mb-1 truncate transition-all duration-300">
                     {song.name}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-2 truncate">
+                <p className="text-gray-600 P-14 lg:h-20-120 dark:text-gray-400 mb-2 truncate transition-all duration-300">
                     {song.artist}
                 </p>
                 </div>

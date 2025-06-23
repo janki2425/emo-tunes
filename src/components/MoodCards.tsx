@@ -117,7 +117,7 @@ const MoodCards: React.FC<Props> = ({ onSelectMood }) => {
               background: `linear-gradient(135deg, ${color.color_from}, ${color.color_via}, ${color.color_to})`
             }}
             className={
-              'relative flex-shrink-0 w-[90vw] max-w-[400px] sm:w-[350px] md:w-[400px] lg:w-[450px] h-[300px] sm:h-[400px] md:h-[500px] lg:h-[550px] rounded-[16px] overflow-hidden cursor-pointer transition-all duration-300'
+              'relative flex-shrink-0 w-[90vw] max-w-[400px] sm:w-[350px] h-[300px] sm:h-[300px] rounded-[16px] overflow-hidden cursor-pointer transition-all duration-300'
             }
           >
             <div className='flex h-full relative'>
@@ -130,8 +130,8 @@ const MoodCards: React.FC<Props> = ({ onSelectMood }) => {
                 />
               </div>
               <div className="absolute z-15 p-3 sm:p-6 flex flex-col justify-end h-full text-white w-full">
-                <h2 className="h-24-140 sm:h-36-140 md:h-48-120 font-bold capitalize mb-1 sm:mb-2">{mood.name}</h2>
-                <p className="P-14 sm:P-16 md:P-20 font-medium">{mood.description}</p>
+                <h2 className="h-20-140 md:h-28-120 font-bold capitalize mb-1 sm:mb-2">{mood.name}</h2>
+                <p className="P-12 md:P-14 font-medium">{mood.description}</p>
               </div>
             </div>
           </div>
