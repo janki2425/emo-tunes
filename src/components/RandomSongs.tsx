@@ -4,10 +4,20 @@ import axiosInstance from '@/app/api/axiosInstance';
 import { useIsMobile } from '@/hooks/useIsMobile'; 
 import { motion } from "framer-motion";
 
+const getSpotifyEmbedUrl = (url: string): string | null => {
+  // Extract Spotify track ID from URL
+  const match = url.match(/track\/([a-zA-Z0-9]+)/);
+  if (match) {
+    return `https://open.spotify.com/embed/track/${match[1]}`;
+  }
+  return null;
+};
+
 const RandomSongs = () => {
   const [allSongs, setAllSongs] = useState<any[]>([]);
   const [currentSongs, setCurrentSongs] = useState<any[]>([]);
   const {isMobile,isSmallMobile} = useIsMobile();
+  const [modalSong, setModalSong] = useState<any | null>(null);
 
   useEffect(() => {
     const fetchSongs = async () => {
@@ -22,6 +32,9 @@ const RandomSongs = () => {
     };
     fetchSongs();
   }, []);
+
+  // Modal close handler
+  const closeModal = () => setModalSong(null);
 
   return (
     <div className="w-full mx-auto p-2 md:p-6">
@@ -42,7 +55,7 @@ const RandomSongs = () => {
             // whileHover={{ scale: 1.0005 }}
             transition={{ duration: 1, delay: index * 0.05 }}
           >
-            <a href={song.url}>
+            <a href={song.url} onClick={e => { e.preventDefault(); setModalSong(song); }}>
                 <div
                 className={`group relative bg-white dark:bg-gray-900 rounded-lg lg:rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-500 hover:scale-102 hover:shadow-2xl`}
                 style={{ animationDelay: `${index * 100}ms` }}
@@ -83,6 +96,41 @@ const RandomSongs = () => {
           </motion.div>
         ))}
       </div>
+
+      {/* Modal Popup */}
+      {modalSong && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={closeModal}>
+          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-2xl px-6 py-8 max-w-xs md:max-w-md w-full relative" onClick={e => e.stopPropagation()}>
+            <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 dark:hover:text-white text-2xl" onClick={closeModal}>&times;</button>
+            <h2 className="font-bold text-lg mb-2 text-center">{modalSong.name}</h2>
+            <p className="text-center text-gray-500 mb-4">{modalSong.artist}</p>
+            {/* Spotify Embed */}
+            {modalSong.url && getSpotifyEmbedUrl(modalSong.url) && (
+              <iframe
+                src={getSpotifyEmbedUrl(modalSong.url) as string}
+                width="100%"
+                height="80"
+                frameBorder="0"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                className="rounded mb-4"
+                title="Spotify Player"
+              ></iframe>
+            )}
+            {modalSong.url && !getSpotifyEmbedUrl(modalSong.url) && (
+              <div className="text-center text-gray-400 mb-4">No Spotify preview available.</div>
+            )}
+            <a
+              href={modalSong.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full text-center bg-green-500 hover:bg-green-600 text-white font-semibold py-2 rounded-lg transition-all duration-200"
+            >
+              Play on Spotify
+            </a>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
