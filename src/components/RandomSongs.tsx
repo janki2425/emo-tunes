@@ -57,7 +57,7 @@ const RandomSongs = () => {
         </div>
 
       {/* Songs Grid */}
-      <div className={`grid gap-6 ${isSmallMobile ? 'grid-cols-2' : isMobile ? 'grid-cols-3' : ''} md:grid-cols-4 xl:grid-cols-5 transition-all duration-300`}>
+      <div className={`grid gap-2 ${isSmallMobile ? 'grid-cols-2' : isMobile ? 'grid-cols-3' : ''} md:grid-cols-4 xl:grid-cols-5 transition-all duration-300`}>
         {allSongs.map((song, index) => (
           <motion.div
             key={index}
