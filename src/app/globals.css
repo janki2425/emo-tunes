@@ -5,6 +5,14 @@
   /* Default light mode colors */
   --background: #F2F0EA;
   --foreground: #464848;
+  --custom-bg:#fff;
+  --custom-text:#464848;
+  --custom-border:#e3e3e3;
+  --auth-nav-color:#fff;
+  --signup-color:#464848;
+  --login-bg-color:#464848;
+  --login-text-color:#fff;
+  --login-text-color:#464848;
 
   /* Heading sizes with line heights */
   /* H-64 */
@@ -72,14 +80,34 @@
   --lh-P-8: 0.7rem; /* 140% of 8px */
 }
 
-html.light {
+html.light { 
   --background: #F2F0EA;
   --foreground: #464848;
+  --custom-bg:#fff;
+  --custom-text:#333;
+  --custom-border:#e3e3e3;
+  --auth-nav-color:#fff;  
+  --signup-color:#464848;
+  --hover-signup:#3b3b3b;
+  --login-bg-color:#464848;
+  --hover-login:#3b3b3b;
+  --login-text-color:#fff;
+  --login-border-color:#464848;
 }
 
 html.dark {
   --background: #464848;
   --foreground: #F2F0EA;
+  --custom-text:#c4c3c3;
+  --custom-bg:#333;
+  --custom-border:#2e2e2e;
+  --auth-nav-color:#333;
+  --signup-color:#F2F0EA;
+  --hover-signup:#d7d6d4;
+  --login-bg-color:#F2F0EA;
+  --hover-login:#d7d6d4;
+  --login-text-color:#333;
+  --login-border-color:#F2F0EA;
 }
 
 @layer base {
@@ -90,6 +118,36 @@ html.dark {
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
+.moodText-custom-color-bg{
+  background-color: var(--custom-bg);
+}
+.moodText-custom-color-text{
+  color: var(--custom-text);
+}
+.moodText-custom-border{
+  border-color: var(--custom-border);
+}
+.auth-custom-bg{
+  background-color: var(--auth-nav-color);
+}
+.auth-signup-color{
+  color: var(--signup-color);
+  border-color: var(--signup-color);
+}
+.auth-login-color{
+  color: var(--login-text-color);
+  background-color: var(--login-bg-color);
+  border-color: var(--login-border-color);
+}
+.auth-signup-color:hover{
+  color: var(--hover-signup);
+  border-color: var(--hover-signup);
+}
+.auth-login-color:hover{
+  background-color: var(--hover-login);
+  border-color: var(--hover-login);
+}
+
 
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {

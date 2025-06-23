@@ -35,7 +35,7 @@ const AuthUser = () => {
 
 
   return (
-    <div className="w-full h-[72px] fixed top-0 bg-[#464848] z-20">
+    <div className="w-full h-[72px] fixed top-0 auth-custom-bg shadow z-20 transition-all duration-300">
         <div className='h-full flex items-center justify-between md:justify-end px-4 gap-4 transition-all duration-300'>
             <div className="flex md:hidden rounded-full bg-white/10 dark:bg-gray-800/20 backdrop-blur-sm hover:bg-white/20 dark:hover:bg-gray-800/40 transition-all duration-300">
                 <ThemeToggle />
@@ -45,13 +45,13 @@ const AuthUser = () => {
                     <>
                         <button
                             onClick={handleSignUp}
-                            className='px-3 py-2 border-[2px] border-[#DDD0C8] rounded-[16px] text-[#DDD0C8] hover:text-[#d9b49d] hover:border-[#d9b49d] P-16 md:P-20 font-[600] transition-all duration-300'
+                            className='px-3 py-2 border-[2px] auth-signup-color rounded-[16px] P-16 md:P-20 font-[600] transition-all duration-300'
                         >
                             Sign Up
                         </button>
                         <button 
                             onClick={handleSignIn}
-                            className='px-3 py-2 border-[2px] border-[#DDD0C8] bg-[#DDD0C8] hover:bg-[#d6bdad] text-[#265767] P-16 md:P-20 font-[600] rounded-[16px] transition-all duration-300'
+                            className='px-3 py-2 border-[2px] auth-login-color P-16 md:P-20 font-[600] rounded-[16px] transition-all duration-300'
                         >
                             Sign In
                         </button>

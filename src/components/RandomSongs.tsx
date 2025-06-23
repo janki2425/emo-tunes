@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image';
 import axiosInstance from '@/app/api/axiosInstance';
 import { useIsMobile } from '@/hooks/useIsMobile'; 
+import { motion } from "framer-motion";
 
 const RandomSongs = () => {
   const [allSongs, setAllSongs] = useState<any[]>([]);
@@ -27,16 +28,23 @@ const RandomSongs = () => {
       {/* Header */}
         <div className="flex items-center justify-start gap-2 mb-8">
             <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-14 md:P-18 font-[500] rounded-[20px] transition-all duration-300'>All</button>
-            <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-14 md:P-18 font-[500] rounded-[20px] transition-all duration-300'>artist</button>
+            {/* <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-14 md:P-18 font-[500] rounded-[20px] transition-all duration-300'>artist</button> */}
         </div>
 
       {/* Songs Grid */}
       <div className={`grid gap-6 ${isSmallMobile ? 'grid-cols-2' : isMobile ? 'grid-cols-3' : ''} md:grid-cols-4 xl:grid-cols-5 transition-all duration-300`}>
         {allSongs.map((song, index) => (
-          <div key={index} className=''>
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, scale: 0.9 }}
+            // animate={{ opacity: 1, scale: 1 }}
+            whileInView={{opacity:1}}
+            // whileHover={{ scale: 1.0005 }}
+            transition={{ duration: 1, delay: index * 0.05 }}
+          >
             <a href={song.url}>
                 <div
-                className={`group relative bg-white dark:bg-gray-900 rounded-lg lg:rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-2xl`}
+                className={`group relative bg-white dark:bg-gray-900 rounded-lg lg:rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-500 hover:scale-102 hover:shadow-2xl`}
                 style={{ animationDelay: `${index * 100}ms` }}
             >
                 {/* Background gradient */}
@@ -72,7 +80,7 @@ const RandomSongs = () => {
                 </div>
             </div>
             </a>
-          </div>
+          </motion.div>
         ))}
       </div>
     </div>

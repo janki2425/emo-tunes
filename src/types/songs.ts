@@ -1,6 +1,6 @@
 export type Song = {
     name: string;
-    artist: string | 'unknown artist';
+    artist: string;
     albumArt: string | null;
     spotifyUrl: string;
   };
