@@ -12,11 +12,11 @@ const MoodTextInput: React.FC<Props> = ({ onTextSubmit, text, setText }) => {
 
   return (
     <div className="w-full">
-      <div className="mb-6 text-center">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent mb-2">
+      <div className="mb-6 text-center"> 
+        <h2 className="h-20-120 md:h-24-120 font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent mb-2 transition-all duration-300">
           How are you feeling?
         </h2>
-        <p className="text-gray-600 dark:text-gray-400 text-sm">
+        <p className="text-gray-600 dark:text-gray-400 P-12 md:P-14 px-4 md:px-0 transition-all duration-300">
           Share your mood and discover music that matches your vibe
         </p>
       </div>
@@ -25,7 +25,7 @@ const MoodTextInput: React.FC<Props> = ({ onTextSubmit, text, setText }) => {
         <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 opacity-0 group-hover:opacity-100 ${isFocused ? 'opacity-100' : ''} transition-opacity duration-300 blur-sm`}></div>
         
         {/* Main input container */}
-        <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div className="relative moodText-custom-color-bg rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300">
           {/* Floating particles effect */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-4 left-4 w-2 h-2 bg-purple-400 rounded-full opacity-20 animate-pulse"></div>
@@ -35,7 +35,7 @@ const MoodTextInput: React.FC<Props> = ({ onTextSubmit, text, setText }) => {
 
           <textarea
             placeholder="I'm feeling excited about the weekend... or maybe a bit nostalgic about old memories..."
-            className={`w-full h-[180px] p-6 bg-transparent text-gray-800 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 border-none outline-none resize-none text-lg leading-relaxed transition-all duration-300 ${isFocused ? 'placeholder-gray-400 dark:placeholder-gray-500' : ''}`}
+            className={`w-full h-[120px] md:h-[180px] p-6 bg-transparent moodText-custom-color-text moodText-custom-color-bg border-none outline-none resize-none P-16 md:P-18 leading-relaxed transition-all duration-300 ${isFocused ? 'placeholder-gray-400 dark:placeholder-gray-500' : ''}`}
             value={text}
             onChange={(e) => setText(e.target.value)}
             onFocus={() => setIsFocused(true)}
@@ -55,10 +55,10 @@ const MoodTextInput: React.FC<Props> = ({ onTextSubmit, text, setText }) => {
         <button
           onClick={() => onTextSubmit(text)}
           disabled={!text.trim()}
-          className={`w-full py-4 px-8 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] ${
+          className={`w-full py-3 md:py-4 px-8 rounded-2xl font-semibold P-12 md:P-18 transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] ${
             text.trim() 
               ? 'bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 text-white shadow-lg hover:shadow-xl hover:shadow-purple-500/25' 
-              : 'bg-gray-700 dark:text-gray-400 cursor-not-allowed'
+              : 'moodText-custom-color-text moodText-custom-color-bg moodText-custom-border cursor-not-allowed'
           }`}
         >
           <span className="relative z-10 flex items-center justify-center gap-2">

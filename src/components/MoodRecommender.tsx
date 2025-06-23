@@ -90,9 +90,10 @@ const MoodRecommender: React.FC<MoodRecommenderProps> = ({
   };
 
   return (
-    <div className="w-full max-w-[1440px] mx-auto mt-[70px] pb-[80px] px-2 sm:px-4 space-y-4 sm:space-y-6">
+    <div className="w-full max-w-[1440px] mx-auto mt-[70px] pb-[40px] px-2 sm:px-4 space-y-4 sm:space-y-6">
       {/* Desktop & tablet: show cards and text input as before */}
       <div className={isResultShown ? 'hidden md:block' : ''}>
+        <h3 className='P-18 md:h-24-120 font-[600] pl-2 md:pl-4 pt-8 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent'>CHOOSE YOUR MOOD {'~'}</h3>
         <MoodCards onSelectMood={getMoodMusic} />
       </div>
 
@@ -123,7 +124,7 @@ const MoodRecommender: React.FC<MoodRecommenderProps> = ({
         <div className="block md:hidden">
           {songs.length > 0 && (
             <button
-              className="my-4 px-4 py-2 rounded-lg bg-gray-300 dark:bg-gray-700 text-black dark:text-white font-semibold hover:bg-gray-400 dark:hover:bg-gray-600 transition"
+              className="my-4 px-4 py-2 P-12 md:P-18 rounded-lg bg-gray-300 dark:bg-gray-700 text-black dark:text-white font-semibold hover:bg-gray-400 dark:hover:bg-gray-600 transition"
               onClick={() => { setSongs([]); setSearchMode(null); setSelectedMood(null); setText(''); setIsResultShown(false); setNoResults(false); }}
             >
               ← Back to Search
@@ -147,7 +148,7 @@ const MoodRecommender: React.FC<MoodRecommenderProps> = ({
       {searchMode && songs.length > 0 && (
         <div className="justify-center pt-4 hidden md:flex">
           <button
-            className="px-6 py-2 rounded-lg bg-gray-300 dark:bg-gray-700 text-black dark:text-white font-semibold hover:bg-gray-400 dark:hover:bg-gray-600 transition"
+            className="px-6 py-2 rounded-lg P-12 md:P-18 bg-gray-300 dark:bg-gray-700 text-black dark:text-white font-semibold hover:bg-gray-400 dark:hover:bg-gray-600 transition"
             onClick={() => { setSearchMode(null); setSelectedMood(null); setSongs([]); setText(''); setIsResultShown(false); setNoResults(false); }}
           >
             Start Over
