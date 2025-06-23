@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { SongListProps } from '@/types/songs';
 import Image from 'next/image';
 
@@ -14,6 +14,19 @@ const SongList: React.FC<SongListProps> = ({ songs }) => {
   const [modalSong, setModalSong] = useState<any | null>(null);
   if (!songs || songs.length === 0) return null;
   const closeModal = () => setModalSong(null);
+
+  // Prevent background scroll when modal is open
+  useEffect(() => {
+    if (modalSong) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [modalSong]);
+
   return (
     <div className="w-full max-w-[1400px] mx-auto">
       <div className='flex flex-col gap-6'>
@@ -36,8 +49,8 @@ const SongList: React.FC<SongListProps> = ({ songs }) => {
       {/* Modal Popup */}
       {modalSong && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={closeModal}>
-          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-2xl px-6 py-8 max-w-xs md:max-w-md w-full relative" onClick={e => e.stopPropagation()}>
-            <button className="absolute top-2 right-2 text-gray-400 hover:text-gray-700 dark:hover:text-white text-2xl" onClick={closeModal}>&times;</button>
+          <div className="auth-custom-bg rounded-xl shadow-2xl px-6 py-8 max-w-xs md:max-w-md w-full relative" onClick={e => e.stopPropagation()}>
+            <button className="absolute top-2 right-2 moodText-custom-color-text text-2xl" onClick={closeModal}>&times;</button>
             <h2 className="font-bold text-lg mb-2 text-center">{modalSong.name}</h2>
             <p className="text-center text-gray-500 mb-4">{modalSong.artist}</p>
             {/* Spotify Embed */}
