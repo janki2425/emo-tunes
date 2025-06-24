@@ -6,6 +6,7 @@ import MoodText from './MoodText';
 import SongList from './SongList';
 import SkeletonLoader from './SkeletonLoader';
 import { MoodRecommenderProps } from '@/types/songs'; 
+import { useRouter } from 'next/navigation';
 
 const MIN_LOADING_TIME = 1000;
 
@@ -17,81 +18,24 @@ const MoodRecommender: React.FC<MoodRecommenderProps> = ({
   noResults,
   setNoResults,
 }) => {
+  const router = useRouter();
   const [songs, setSongs] = useState<any[]>([]);
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   const [resetSignal, setResetSignal] = useState(0);
 
-  const getMoodMusic = async (mood: string) => {
-    setSearchMode('card');
-    setSelectedMood(mood);
-    setSongs([]);
-    setLoading(true);
-    const start = Date.now();
-
-    try {
-      const res = await axiosInstance.get(`/api/suggest-songs/${mood}`);
-      setSongs(res.data.tracks || []);
-      setIsResultShown((res.data.tracks || []).length > 0);
-      if (res.data.tracks && res.data.tracks.length > 0) {
-        console.log(res.data.tracks[0].artist);
-      }
-      if ((res.data.tracks || []).length === 0) {
-        setNoResults(true);
-      } else {
-        setNoResults(false);
-      }
-    } catch (error) {
-      setSongs([]);
-      setIsResultShown(false);
-      setNoResults(true);
-    }
-
-    const elapsed = Date.now() - start;
-    if (elapsed < MIN_LOADING_TIME) {
-      setTimeout(() => setLoading(false), MIN_LOADING_TIME - elapsed);
-    } else {
-      setLoading(false);
-    }
+  const getMoodMusic = (mood: string) => {
+    router.push(`/songs?mood=${encodeURIComponent(mood)}`);
   };
 
-  const getTextBasedMusic = async (inputText: string) => {
+  const getTextBasedMusic = (inputText: string) => {
     if (!inputText.trim()) return;
-    setSearchMode('text');
-    setSelectedMood(null);
-    setSongs([]);
-    setLoading(true);
-    const start = Date.now();
-
-    try {
-      const res = await axiosInstance.post(`/api/suggest-songs-by-text`, { text: inputText });
-      setSongs(res.data.tracks || []);
-      setIsResultShown((res.data.tracks || []).length > 0);
-      if (res.data.tracks && res.data.tracks.length > 0) {
-        console.log(res.data.tracks[0].artist);
-      }
-      if ((res.data.tracks || []).length === 0) {
-        setNoResults(true);
-      } else {
-        setNoResults(false);
-      }
-    } catch (error) {
-      setSongs([]); // No results
-      setIsResultShown(false);
-      setNoResults(true);
-    }
-
-    const elapsed = Date.now() - start;
-    if (elapsed < MIN_LOADING_TIME) {
-      setTimeout(() => setLoading(false), MIN_LOADING_TIME - elapsed);
-    } else {
-      setLoading(false);
-    }
+    router.push(`/songs?q=${encodeURIComponent(inputText)}`);
   };
 
   return (
-    <div className="w-full max-w-[1440px] mx-auto mt-[50px] pb-[40px] px-2 sm:px-4 space-y-4 sm:space-y-6">
+    <div className="w-full max-w-[1440px] mx-auto mt-[35px] md:mt-[50px] pb-[40px] px-2 sm:px-4 space-y-4 sm:space-y-6">
       {/* Desktop & tablet: show cards and text input as before */}
       <div className={isResultShown ? 'hidden md:block' : ''}>
         <h3 className='P-18 md:h-24-120 font-[600] pt-8 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent'>CHOOSE YOUR MOOD {'~'}</h3>
