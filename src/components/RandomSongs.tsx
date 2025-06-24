@@ -49,31 +49,23 @@ const RandomSongs = () => {
   const closeModal = () => setModalSong(null);
 
   return (
-    <div className="w-full mx-auto p-2 md:p-6">
+    <div className="w-full mx-auto p-2">
       {/* Header */}
         <div className="flex items-center justify-start gap-2 mb-8">
-            <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-14 md:P-18 font-[500] rounded-[20px] transition-all duration-300'>All</button>
+            <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-14 md:P-18 font-[500] rounded-[18px] transition-all duration-300'>All</button>
             {/* <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-14 md:P-18 font-[500] rounded-[20px] transition-all duration-300'>artist</button> */}
         </div>
 
       {/* Songs Grid */}
-      <div className={`grid gap-2 ${isSmallMobile ? 'grid-cols-2' : isMobile ? 'grid-cols-3' : ''} md:grid-cols-4 xl:grid-cols-5 transition-all duration-300`}>
+      <div className={`grid gap-3 ${isSmallMobile ? 'grid-cols-2' : isMobile ? 'grid-cols-3' : ''} md:grid-cols-4 xl:grid-cols-5 transition-all duration-300`}>
         {allSongs.map((song, index) => (
           <motion.div
             key={index}
-            initial={{ opacity: 0, scale: 0.9 }}
-            // animate={{ opacity: 1, scale: 1 }}
-            whileInView={{opacity:1}}
-            whileHover={{
-              rotate: [0, 0, 0, 0]
-            }}
-            transition={{
-              rotate: { type: 'tween', duration: 0.5, ease: 'easeInOut' }
-            }}
+            className='hover:shadow-lg p-2 rounded-[10px] transition-all duration-300'
           >
             <a href={song.url} onClick={e => { e.preventDefault(); setModalSong(song); }}>
                 <div
-                className={`group relative bg-white dark:bg-gray-900 rounded-lg lg:rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-500 hover:scale-102 hover:shadow-2xl`}
+                className={`group relative bg-transparent rounded-lg overflow-hidden transition-all duration-500`}
                 style={{ animationDelay: `${index * 100}ms` }}
             >
                 {/* Background gradient */}
@@ -88,19 +80,19 @@ const RandomSongs = () => {
                     width={192}
                     height={192}
                     alt={song.name}
-                    className="w-full object-cover lg:rounded-t-2xl rounded-t-lg shadow-lg transition-all duration-300"
+                    className="w-full object-cover rounded-t-lg shadow-lg transition-all duration-300"
                     />
                 </div>
                 </div>
 
                 {/* Song Info */}
-                <div className="p-2 md:p-4 lg:p-6 transition-all duration-300">
-                <h3 className="font-bold P-16 lg:h-24-120 text-gray-900 dark:text-white mb-1 truncate transition-all duration-300">
-                    {song.name}
-                </h3>
-                <p className="text-gray-600 P-14 lg:h-20-120 dark:text-gray-400 mb-2 truncate transition-all duration-300">
-                    {song.artist}
-                </p>
+                <div className="flex flex-col justify-start py-2 px-1 transition-all duration-300">
+                  <h3 className="font-bold P-16 lg:h-24-120 moodText-custom-color-text mb-1 truncate transition-all duration-300">
+                      {song.name}
+                  </h3>
+                  <p className=".moodText-custom-color-text opacity-50 P-14 lg:h-20-120 mb-2 truncate transition-all duration-300">
+                      {song.artist}
+                  </p>
                 </div>
 
                 {/* Animated border on hover */}

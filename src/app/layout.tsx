@@ -5,8 +5,9 @@ import "./globals.css";
 import Navbar from "@/components/common/Navbar";
 import { Providers } from "@/context/ThemeContext";
 import { usePathname } from "next/navigation";
-import AuthUser from "@/components/AuthUser";
+import AuthUser from "@/components/WebNavbar";
 import SplashScreen from '@/components/SplashScreen';
+import { useIsMobile } from '@/hooks/useIsMobile'; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,10 +25,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathName = usePathname();
+  const {isMobile} = useIsMobile();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setIsLoading(false), 2000); // 2 sec splash
+    const timeout = setTimeout(() => setIsLoading(false), 2000);
     return () => clearTimeout(timeout);
   }, []);
   
@@ -41,7 +43,9 @@ export default function RootLayout({
           {pathName !== '/auth/register' && pathName !== '/auth/login' && (
             <>
             <AuthUser/>
-            <Navbar/>
+            {isMobile && (
+              <Navbar/>
+            )}
             </>
           )}
           

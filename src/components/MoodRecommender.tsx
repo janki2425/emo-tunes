@@ -5,9 +5,9 @@ import MoodCards from './MoodCards';
 import MoodText from './MoodText';
 import SongList from './SongList';
 import SkeletonLoader from './SkeletonLoader';
-import { MoodRecommenderProps } from '@/types/songs'; // or from its own file if you move the type
+import { MoodRecommenderProps } from '@/types/songs'; 
 
-const MIN_LOADING_TIME = 1000; // 1 second
+const MIN_LOADING_TIME = 1000;
 
 const MoodRecommender: React.FC<MoodRecommenderProps> = ({
   isResultShown,
@@ -91,10 +91,10 @@ const MoodRecommender: React.FC<MoodRecommenderProps> = ({
   };
 
   return (
-    <div className="w-full max-w-[1440px] mx-auto mt-[70px] pb-[40px] px-2 sm:px-4 space-y-4 sm:space-y-6">
+    <div className="w-full max-w-[1440px] mx-auto mt-[50px] pb-[40px] px-2 sm:px-4 space-y-4 sm:space-y-6">
       {/* Desktop & tablet: show cards and text input as before */}
       <div className={isResultShown ? 'hidden md:block' : ''}>
-        <h3 className='P-18 md:h-24-120 font-[600] pl-2 md:pl-4 pt-8 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent'>CHOOSE YOUR MOOD {'~'}</h3>
+        <h3 className='P-18 md:h-24-120 font-[600] pt-8 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent'>CHOOSE YOUR MOOD {'~'}</h3>
         <MoodCards onSelectMood={getMoodMusic} resetSignal={resetSignal} />
       </div>
 

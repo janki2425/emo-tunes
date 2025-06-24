@@ -4,8 +4,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import ThemeToggle from '../ThemeToggle';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 const Navbar = () => {
+    const {isMobile} = useIsMobile();
     const [activeTab, setActiveTab] = useState('Home');
     const [isVisible, setIsVisible] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
@@ -145,11 +147,13 @@ const Navbar = () => {
                 </div>
                 
                 {/* Theme toggle in corner */}
-                <div className="hidden md:flex absolute right-4 top-1/2 transform -translate-y-1/2 transition-all duration-300">
-                    <div className="rounded-full bg-white/10 dark:bg-gray-800/20 backdrop-blur-sm hover:bg-white/20 dark:hover:bg-gray-800/40 transition-colors">
+               {/* {!isMobile && (
+                 <div className="flex absolute right-4 top-8 transform -translate-y-1/2 transition-all duration-300">
+                    <div className="rounded-full backdrop-blur-sm transition-colors">
                         <ThemeToggle />
                     </div>
                 </div>
+               )} */}
             </nav>
             
             {/* Bottom safe area for phones with home indicators */}
