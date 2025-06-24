@@ -37,7 +37,7 @@ const AuthUser = () => {
   return (
     <div className="w-full h-[72px] fixed top-0 auth-custom-bg shadow z-20 transition-all duration-300">
         <div className='h-full flex items-center justify-between md:justify-end px-4 gap-4 transition-all duration-300'>
-            <div className="flex md:hidden rounded-full bg-white/10 dark:bg-gray-800/20 backdrop-blur-sm hover:bg-white/20 dark:hover:bg-gray-800/40 transition-all duration-300">
+            <div className="flex md:hidden rounded-full backdrop-blur-sm transition-all duration-300">
                 <ThemeToggle />
             </div>  
             <div className='flex items-center justify-center gap-4'>        

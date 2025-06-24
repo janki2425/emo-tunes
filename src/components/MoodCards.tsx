@@ -150,7 +150,7 @@ const MoodCards: React.FC<Props> = ({ onSelectMood, resetSignal }) => {
       setFrontIndex(index);
     });
     return () => unsubscribe();
-  }, [x, moods.length]);
+  }, [x, moods.length, CARD_WIDTH]);
 
   // User control handlers
   const handleLeft = () => {
