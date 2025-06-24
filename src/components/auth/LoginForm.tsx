@@ -68,7 +68,7 @@ export default function LoginForm() {
               required
               value={formData.email}
               onChange={handleChange}
-              className="mt-1 block w-full px-2 sm:px-3 py-2 P-12 md:P-14 bg-white border border-gray-600 rounded-xl shadow-sm focus:outline-none focus:border-transparent transition-all duration-300"
+              className="mt-1 block w-full px-2 text-[#505050] sm:px-3 py-2 P-12 md:P-14 bg-white border border-gray-600 rounded-xl shadow-sm focus:outline-none focus:border-transparent transition-all duration-300"
               placeholder="Enter your email"
             />
           </div>
@@ -85,7 +85,7 @@ export default function LoginForm() {
               required
               value={formData.password}
               onChange={handleChange}
-              className="mt-1 block w-full px-2 sm:px-3 py-2 P-12 md:P-14 bg-white border border-gray-600 rounded-xl shadow-sm focus:outline-none focus:border-transparent transition-all duration-300"
+              className="mt-1 block w-full px-2 text-[#505050] sm:px-3 py-2 P-12 md:P-14 bg-white border border-gray-600 rounded-xl shadow-sm focus:outline-none focus:border-transparent transition-all duration-300"
               placeholder="Enter your password"
             />
           </div>
