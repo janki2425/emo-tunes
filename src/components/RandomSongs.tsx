@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image';
 import axiosInstance from '@/app/api/axiosInstance';
 import { useIsMobile } from '@/hooks/useIsMobile'; 
@@ -18,6 +18,7 @@ const RandomSongs = () => {
   const [currentSongs, setCurrentSongs] = useState<any[]>([]);
   const {isMobile,isSmallMobile} = useIsMobile();
   const [modalSong, setModalSong] = useState<any | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     const fetchSongs = async () => {
@@ -33,17 +34,35 @@ const RandomSongs = () => {
     fetchSongs();
   }, []);
 
-    // Prevent background scroll when modal is open
-    useEffect(() => {
-      if (modalSong) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = 'auto';
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      console.log(`Key pressed: ${e.key}`);
+      if (e.key === 'Escape') {
+        console.log('Escape key pressed, closing modal.');
+        closeModal();
       }
-      return () => {
-        document.body.style.overflow = 'auto';
-      };
-    }, [modalSong]);
+      if (e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        console.log('F key pressed. Iframe ref:', iframeRef.current);
+        if (iframeRef.current) {
+          iframeRef.current.focus();
+          console.log('Focus method called on iframe.');
+        } else {
+          console.log('Iframe ref not found.');
+        }
+      }
+    };
+    if (modalSong) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [modalSong]);
 
   // Modal close handler
   const closeModal = () => setModalSong(null);
@@ -108,13 +127,14 @@ const RandomSongs = () => {
       {/* Modal Popup */}
       {modalSong && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={closeModal}>
-          <div className="auth-custom-bg rounded-xl shadow-2xl px-6 py-8 max-w-xs md:max-w-md w-full relative" onClick={e => e.stopPropagation()}>
-            <button className="absolute top-2 right-2 moodText-custom-color-text text-2xl" onClick={closeModal}>&times;</button>
+          <div className="auth-custom-bg rounded-xl shadow-2xl px-6 py-6 max-w-xs md:max-w-md w-full relative" onClick={e => e.stopPropagation()}>
+            <button className="absolute top-2 right-4 moodText-custom-color-text text-2xl" onClick={closeModal}>&times;</button>
             <h2 className="font-bold text-lg mb-2 text-center">{modalSong.name}</h2>
             <p className="text-center text-gray-500 mb-4">{modalSong.artist}</p>
             {/* Spotify Embed */}
             {modalSong.url && getSpotifyEmbedUrl(modalSong.url) && (
               <iframe
+                ref={iframeRef}
                 src={getSpotifyEmbedUrl(modalSong.url) as string}
                 width="100%"
                 height="80"

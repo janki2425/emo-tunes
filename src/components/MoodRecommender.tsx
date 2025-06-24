@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axiosInstance from '@/app/api/axiosInstance';
 import MoodCards from './MoodCards';
 import MoodText from './TextModel';
@@ -26,6 +26,22 @@ const MoodRecommender: React.FC<MoodRecommenderProps> = ({
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   const [resetSignal, setResetSignal] = useState(0);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsSearchOpen(false);
+      }
+    };
+
+    if (isSearchOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isSearchOpen, setIsSearchOpen]);
 
   const getMoodMusic = (mood: string) => {
     router.push(`/songs?mood=${encodeURIComponent(mood)}`);
