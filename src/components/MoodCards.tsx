@@ -205,7 +205,7 @@ const MoodCards: React.FC<Props> = ({ onSelectMood, resetSignal }) => {
                 style={{
                   background: `linear-gradient(135deg, ${color.color_from}, ${color.color_via}, ${color.color_to})`
                 }}
-                className={`relative flex-shrink-0 w-[90vw] max-w-[400px] sm:w-[350px] h-[300px] sm:h-[300px] rounded-[16px] overflow-hidden cursor-pointer transition-all duration-300 ${isSelected ? 'ring-2 ring-green-400 shadow-2xl' : ''}`}
+                className={`relative flex-shrink-0 w-[90vw] max-w-[400px] sm:w-[350px] h-[300px] sm:h-[300px] rounded-[16px] overflow-hidden cursor-pointer transition-all duration-300 ${isSelected ? 'ring-2 ring-green-400' : ''}`}
                 whileHover={{ 
                   scale: 1.001,
                   y: -10,

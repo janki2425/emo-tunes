@@ -1,12 +1,17 @@
 'use client'
-import { useEffect, useState } from 'react';
+
+import { useEffect, useState, ReactNode } from 'react';
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/common/Navbar";
 import { Providers } from "@/context/ThemeContext";
+import { SearchProvider } from "@/context/SearchContext";
 import { usePathname } from "next/navigation";
-import AuthUser from "@/components/AuthUser";
 import SplashScreen from '@/components/SplashScreen';
+import { useIsMobile } from '@/hooks/useIsMobile'; 
+import WebNavbar from '@/components/WebNavbar';
+import { useTheme } from 'next-themes';
+import { useSearch } from '@/context/SearchContext';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,36 +23,67 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+function LayoutContent({ children }: { children: ReactNode }) {
+  const pathName = usePathname();
+  const { isMobile } = useIsMobile();
+  const [isLoading, setIsLoading] = useState(true);
+  const { resolvedTheme, setTheme } = useTheme();
+  const { setIsSearchOpen } = useSearch();
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setIsSearchOpen(true);
+      }
+      
+      if (e.altKey && e.key.toLowerCase() === 't') {
+        e.preventDefault();
+        setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [resolvedTheme, setTheme, setIsSearchOpen]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsLoading(false), 2000);
+    return () => clearTimeout(timeout);
+  }, []);
+
+  return (
+    <>
+      {isLoading && <SplashScreen />}
+      {!isLoading && (
+        <>
+          {pathName !== '/auth/register' && pathName !== '/auth/login' && (
+            <>
+              <WebNavbar />
+              {isMobile && <Navbar />}
+            </>
+          )}
+          {children}
+        </>
+      )}
+    </>
+  );
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathName = usePathname();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => setIsLoading(false), 2000); // 2 sec splash
-    return () => clearTimeout(timeout);
-  }, []);
-  
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased transition-colors duration-300`}>
         <Providers>
-          {isLoading && <SplashScreen/>}
-          {!isLoading && (
-          <>
-          {pathName !== '/auth/register' && pathName !== '/auth/login' && (
-            <>
-            <AuthUser/>
-            <Navbar/>
-            </>
-          )}
-          
-          {children}
-          </>
-        )}
+          <SearchProvider>
+            <LayoutContent>{children}</LayoutContent>
+          </SearchProvider>
         </Providers>
       </body>
     </html>

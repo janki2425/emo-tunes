@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image';
 import axiosInstance from '@/app/api/axiosInstance';
 import { useIsMobile } from '@/hooks/useIsMobile'; 
@@ -18,6 +18,7 @@ const RandomSongs = () => {
   const [currentSongs, setCurrentSongs] = useState<any[]>([]);
   const {isMobile,isSmallMobile} = useIsMobile();
   const [modalSong, setModalSong] = useState<any | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     const fetchSongs = async () => {
@@ -33,47 +34,57 @@ const RandomSongs = () => {
     fetchSongs();
   }, []);
 
-    // Prevent background scroll when modal is open
-    useEffect(() => {
-      if (modalSong) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = 'auto';
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      console.log(`Key pressed: ${e.key}`);
+      if (e.key === 'Escape') {
+        console.log('Escape key pressed, closing modal.');
+        closeModal();
       }
-      return () => {
-        document.body.style.overflow = 'auto';
-      };
-    }, [modalSong]);
+      if (e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        console.log('F key pressed. Iframe ref:', iframeRef.current);
+        if (iframeRef.current) {
+          iframeRef.current.focus();
+          console.log('Focus method called on iframe.');
+        } else {
+          console.log('Iframe ref not found.');
+        }
+      }
+    };
+    if (modalSong) {
+      document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [modalSong]);
 
   // Modal close handler
   const closeModal = () => setModalSong(null);
 
   return (
-    <div className="w-full mx-auto p-2 md:p-6">
+    <div className="w-full mx-auto p-2">
       {/* Header */}
         <div className="flex items-center justify-start gap-2 mb-8">
-            <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-14 md:P-18 font-[500] rounded-[20px] transition-all duration-300'>All</button>
+            <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-14 md:P-18 font-[500] rounded-[18px] transition-all duration-300'>All</button>
             {/* <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-14 md:P-18 font-[500] rounded-[20px] transition-all duration-300'>artist</button> */}
         </div>
 
       {/* Songs Grid */}
-      <div className={`grid gap-2 ${isSmallMobile ? 'grid-cols-2' : isMobile ? 'grid-cols-3' : ''} md:grid-cols-4 xl:grid-cols-5 transition-all duration-300`}>
+      <div className={`grid gap-3 ${isSmallMobile ? 'grid-cols-2' : isMobile ? 'grid-cols-3' : ''} md:grid-cols-4 xl:grid-cols-5 transition-all duration-300`}>
         {allSongs.map((song, index) => (
           <motion.div
             key={index}
-            initial={{ opacity: 0, scale: 0.9 }}
-            // animate={{ opacity: 1, scale: 1 }}
-            whileInView={{opacity:1}}
-            whileHover={{
-              rotate: [0, 0, 0, 0]
-            }}
-            transition={{
-              rotate: { type: 'tween', duration: 0.5, ease: 'easeInOut' }
-            }}
+            className='hover:shadow-lg p-2 rounded-[10px] transition-all duration-300'
           >
             <a href={song.url} onClick={e => { e.preventDefault(); setModalSong(song); }}>
                 <div
-                className={`group relative bg-white dark:bg-gray-900 rounded-lg lg:rounded-3xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-500 hover:scale-102 hover:shadow-2xl`}
+                className={`group relative bg-transparent rounded-lg overflow-hidden transition-all duration-500`}
                 style={{ animationDelay: `${index * 100}ms` }}
             >
                 {/* Background gradient */}
@@ -88,19 +99,19 @@ const RandomSongs = () => {
                     width={192}
                     height={192}
                     alt={song.name}
-                    className="w-full object-cover lg:rounded-t-2xl rounded-t-lg shadow-lg transition-all duration-300"
+                    className="w-full object-cover rounded-t-lg shadow-lg transition-all duration-300"
                     />
                 </div>
                 </div>
 
                 {/* Song Info */}
-                <div className="p-2 md:p-4 lg:p-6 transition-all duration-300">
-                <h3 className="font-bold P-16 lg:h-24-120 text-gray-900 dark:text-white mb-1 truncate transition-all duration-300">
-                    {song.name}
-                </h3>
-                <p className="text-gray-600 P-14 lg:h-20-120 dark:text-gray-400 mb-2 truncate transition-all duration-300">
-                    {song.artist}
-                </p>
+                <div className="flex flex-col justify-start py-2 px-1 transition-all duration-300">
+                  <h3 className="font-bold P-16 lg:h-24-120 moodText-custom-color-text mb-1 truncate transition-all duration-300">
+                      {song.name}
+                  </h3>
+                  <p className=".moodText-custom-color-text opacity-50 P-14 lg:h-20-120 mb-2 truncate transition-all duration-300">
+                      {song.artist}
+                  </p>
                 </div>
 
                 {/* Animated border on hover */}
@@ -116,13 +127,14 @@ const RandomSongs = () => {
       {/* Modal Popup */}
       {modalSong && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={closeModal}>
-          <div className="auth-custom-bg rounded-xl shadow-2xl px-6 py-8 max-w-xs md:max-w-md w-full relative" onClick={e => e.stopPropagation()}>
-            <button className="absolute top-2 right-2 moodText-custom-color-text text-2xl" onClick={closeModal}>&times;</button>
+          <div className="auth-custom-bg rounded-xl shadow-2xl px-6 py-6 max-w-xs md:max-w-md w-full relative" onClick={e => e.stopPropagation()}>
+            <button className="absolute top-2 right-4 moodText-custom-color-text text-2xl" onClick={closeModal}>&times;</button>
             <h2 className="font-bold text-lg mb-2 text-center">{modalSong.name}</h2>
             <p className="text-center text-gray-500 mb-4">{modalSong.artist}</p>
             {/* Spotify Embed */}
             {modalSong.url && getSpotifyEmbedUrl(modalSong.url) && (
               <iframe
+                ref={iframeRef}
                 src={getSpotifyEmbedUrl(modalSong.url) as string}
                 width="100%"
                 height="80"

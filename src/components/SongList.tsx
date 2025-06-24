@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { SongListProps } from '@/types/songs';
 import Image from 'next/image';
+import SkeletonLoader from './SkeletonLoader';
 
 const getSpotifyEmbedUrl = (url: string): string | null => {
   const match = url.match(/track\/([a-zA-Z0-9]+)/);
@@ -12,25 +13,64 @@ const getSpotifyEmbedUrl = (url: string): string | null => {
 
 const SongList: React.FC<SongListProps> = ({ songs }) => {
   const [modalSong, setModalSong] = useState<any | null>(null);
-  if (!songs || songs.length === 0) return null;
+  const [visibleCount, setVisibleCount] = useState(10);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const loaderRef = useRef(null);
+
+  useEffect(() => {
+    const currentLoader = loaderRef.current;
+    if (!currentLoader || loadingMore) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && visibleCount < songs.length) {
+          setLoadingMore(true);
+          setTimeout(() => {
+            setVisibleCount(prevCount => prevCount + 10);
+            setLoadingMore(false);
+          }, 1000); // 1-second delay to simulate loading
+        }
+      },
+      { threshold: 1.0 }
+    );
+
+    observer.observe(currentLoader);
+
+    return () => {
+      if (currentLoader) {
+        observer.unobserve(currentLoader);
+      }
+    };
+  }, [visibleCount, songs.length, loadingMore]);
+
   const closeModal = () => setModalSong(null);
 
-  // Prevent background scroll when modal is open
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    };
     if (modalSong) {
       document.body.style.overflow = 'hidden';
+      window.addEventListener('keydown', handleKeyDown);
     } else {
       document.body.style.overflow = 'auto';
     }
     return () => {
       document.body.style.overflow = 'auto';
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [modalSong]);
 
+  const visibleSongs = songs.slice(0, visibleCount);
+
+  if (!songs || songs.length === 0) return null;
+
   return (
     <div className="w-full max-w-[1400px] mx-auto">
-      <div className='flex flex-col gap-6'>
-        {songs.slice(1,10).map((song, idx) => (
+      <div className='flex flex-col gap-3 md:gap-6 transition-all duration-300'>
+        {visibleSongs.map((song, idx) => (
           <a key={idx} href={song.spotifyUrl} onClick={e => { e.preventDefault(); setModalSong(song); }}>
             <div className="moodText-custom-color-bg w-full rounded-lg shadow p-4 flex items-center gap-4 transition-all duration-300">
             {song.albumArt ? (
@@ -46,11 +86,18 @@ const SongList: React.FC<SongListProps> = ({ songs }) => {
           </a>
         ))}
       </div>
+
+      {visibleCount < songs.length && (
+        <div ref={loaderRef} className="py-4">
+          {loadingMore && <SkeletonLoader count={3} />}
+        </div>
+      )}
+
       {/* Modal Popup */}
       {modalSong && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={closeModal}>
-          <div className="auth-custom-bg rounded-xl shadow-2xl px-6 py-8 max-w-xs md:max-w-md w-full relative" onClick={e => e.stopPropagation()}>
-            <button className="absolute top-2 right-2 moodText-custom-color-text text-2xl" onClick={closeModal}>&times;</button>
+          <div className="auth-custom-bg rounded-xl shadow-2xl px-6 py-6 max-w-xs md:max-w-md w-full relative" onClick={e => e.stopPropagation()}>
+            <button className="absolute top-2 right-4 moodText-custom-color-text text-2xl" onClick={closeModal}>&times;</button>
             <h2 className="font-bold text-lg mb-2 text-center">{modalSong.name}</h2>
             <p className="text-center text-gray-500 mb-4">{modalSong.artist}</p>
             {/* Spotify Embed */}

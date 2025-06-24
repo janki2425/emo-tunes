@@ -104,8 +104,8 @@ html.dark {
   --auth-nav-color:#333;
   --signup-color:#F2F0EA;
   --hover-signup:#d7d6d4;
-  --login-bg-color:#F2F0EA;
-  --hover-login:#d7d6d4;
+  --login-bg-color:#dedddb;
+  --hover-login:#f4f2ef;
   --login-text-color:#333;
   --login-border-color:#F2F0EA;
 }
