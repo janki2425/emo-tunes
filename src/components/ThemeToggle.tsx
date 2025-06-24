@@ -38,6 +38,7 @@ export default function ThemeToggle() {
           height={30}
           alt='Switch to dark mode'
           priority
+          className='invert'
         />
       )}
     </button>

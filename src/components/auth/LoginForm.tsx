@@ -99,7 +99,7 @@ export default function LoginForm() {
               {isLoading ? 'Logging in...' : 'Login'}
             </button>
             <div className='flex items-center justify-center'>
-              <p className='P-12 md:P-14 text-[#dee2e9] transition-all duration-300'>Don't have an Account? <Link href={'/auth/register'} className='P-12 md:P-14 border-b'>Sign Up</Link></p>
+              <p className='P-12 md:P-14 text-[#dee2e9] transition-all duration-300'>Don&apos;t have an Account? <Link href={'/auth/register'} className='P-12 md:P-14 border-b'>Sign Up</Link></p>
             </div>
           </div>
         </form>
