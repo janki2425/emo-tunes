@@ -1,13 +1,17 @@
+'use client';
+
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation';
 import ThemeToggle from './ThemeToggle';
 import { useTheme } from 'next-themes'
+import { useSearch } from '@/context/SearchContext';
 
-const AuthUser = () => {
+const WebNavbar = () => {
     const { theme } = useTheme();
     const router = useRouter();
+    const { setIsSearchOpen } = useSearch();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
 
@@ -15,6 +19,10 @@ const AuthUser = () => {
         const token = localStorage.getItem('token');
         setIsLoggedIn(!!token);
     }, []);
+
+    const handleSearchClick = () => {
+        setIsSearchOpen(true);
+    }
 
     const handleSignUp = () => {
         router.push('/auth/register');
@@ -48,10 +56,9 @@ const AuthUser = () => {
                     </Link>
                 </div>
             </div>
-            <div className='w-full flex items-center justify-end gap-8'>
-                <div className='flex items-center gap-4'>
-                    
-                    <div className='p-2 rounded'>
+            <div className='w-full flex items-center justify-end gap-6 md:gap-8'>
+                <div className='flex items-center'>
+                    <div onClick={handleSearchClick} className='p-2 rounded cursor-pointer'>
                     <Image src={'/navbar/search.svg'} width={20} height={20} alt='home' className={`${theme === 'dark' ? 'invert' : ''} transition-all duration-300`}/>
                     </div>
                 </div>
@@ -116,4 +123,4 @@ const AuthUser = () => {
   )
 }
 
-export default AuthUser
+export default WebNavbar

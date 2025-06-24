@@ -2,11 +2,12 @@
 import React, { useState } from 'react';
 import axiosInstance from '@/app/api/axiosInstance';
 import MoodCards from './MoodCards';
-import MoodText from './MoodText';
+import MoodText from './TextModel';
 import SongList from './SongList';
 import SkeletonLoader from './SkeletonLoader';
 import { MoodRecommenderProps } from '@/types/songs'; 
 import { useRouter } from 'next/navigation';
+import { useSearch } from '@/context/SearchContext';
 
 const MIN_LOADING_TIME = 1000;
 
@@ -19,6 +20,7 @@ const MoodRecommender: React.FC<MoodRecommenderProps> = ({
   setNoResults,
 }) => {
   const router = useRouter();
+  const { isSearchOpen, setIsSearchOpen } = useSearch();
   const [songs, setSongs] = useState<any[]>([]);
   const [selectedMood, setSelectedMood] = useState<string | null>(null);
   const [text, setText] = useState('');
@@ -29,39 +31,37 @@ const MoodRecommender: React.FC<MoodRecommenderProps> = ({
     router.push(`/songs?mood=${encodeURIComponent(mood)}`);
   };
 
-  const getTextBasedMusic = (inputText: string) => {
+  const handleTextSearch = (inputText: string) => {
     if (!inputText.trim()) return;
     router.push(`/songs?q=${encodeURIComponent(inputText)}`);
+    setIsSearchOpen(false);
   };
+
+  const handleCloseSearch = () => {
+    setIsSearchOpen(false);
+    setSearchMode(null);
+    setResetSignal(rs => rs + 1);
+  }
 
   return (
     <div className="w-full max-w-[1440px] mx-auto mt-[35px] md:mt-[50px] pb-[40px] px-2 sm:px-4 space-y-4 sm:space-y-6">
-      {/* Desktop & tablet: show cards and text input as before */}
-      <div className={isResultShown ? 'hidden md:block' : ''}>
-        <h3 className='P-18 md:h-24-120 font-[600] pt-8 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent'>CHOOSE YOUR MOOD {'~'}</h3>
-        <MoodCards onSelectMood={getMoodMusic} resetSignal={resetSignal} />
-      </div>
+      <div className={isResultShown ? 'hidden' : 'block'}>
 
-      <div className={`flex-col md:flex-row gap-4 sm:gap-6 ${isResultShown ? 'hidden md:flex' : 'flex'}`}>
-        <div className={`${isResultShown ? 'md:w-1/4' : 'w-full'} transition-all duration-300`}>
-          <MoodText onTextSubmit={getTextBasedMusic} text={text} setText={setText} />
-        </div>
-        {/* Desktop/tablet: show results in split view */}
-        {(searchMode === 'card' || searchMode === 'text') && (
-          <div className="md:w-3/4 transition-all duration-300 hidden md:block">
-            {loading ? (
-              <SkeletonLoader count={5} />
-            ) : songs.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-64 text-gray-400">
-                <span className="text-5xl mb-4">😕</span>
-                <p className="text-lg font-semibold">No songs found for your search.</p>
-                <p className="text-sm">Try a different mood or description!</p>
-              </div>
-            ) : (
-              <SongList songs={songs} />
-            )}
+        {isSearchOpen && (
+          <div className="mb-8">
+            <MoodText
+              onTextSubmit={handleTextSearch}
+              text={text}
+              setText={setText}
+              onClose={handleCloseSearch}
+            />
           </div>
         )}
+
+        <h3 className='P-18 md:h-24-120 font-[600] pt-8 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent'>
+          CHOOSE YOUR MOOD {'~'}
+        </h3>
+        <MoodCards onSelectMood={getMoodMusic} resetSignal={resetSignal} />
       </div>
 
       {/* Mobile: show SongList full screen with back button */}
