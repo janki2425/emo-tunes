@@ -1,7 +1,7 @@
 import axios from "axios"
 import { config } from "process";
 
-const BACKEND_URL='https://emotunes-backend-2.onrender.com';
+const BACKEND_URL='https://emotunes-backend-3.onrender.com';
 
 
 const axiosInstance = axios.create({
