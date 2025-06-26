@@ -1,7 +1,7 @@
 import axios from "axios"
 import { config } from "process";
 
-const BACKEND_URL='https://0a32-122-176-226-127.ngrok-free.app';
+const BACKEND_URL='https://c013-122-176-226-127.ngrok-free.app';
 
 
 const axiosInstance = axios.create({

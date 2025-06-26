@@ -69,7 +69,7 @@ const SongList: React.FC<SongListProps> = ({ songs }) => {
 
   return (
     <div className="w-full max-w-[1400px] mx-auto">
-      <div className='flex flex-col gap-3 md:gap-6 transition-all duration-300'>
+      <div className='flex flex-col gap-3 md:gap-4 transition-all duration-300'>
         {visibleSongs.map((song, idx) => (
           <a key={idx} href={song.spotifyUrl} onClick={e => { e.preventDefault(); setModalSong(song); }}>
             <div className="moodText-custom-color-bg w-full rounded-lg shadow p-4 flex items-center gap-4 transition-all duration-300">
