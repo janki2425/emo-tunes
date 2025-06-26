@@ -21,21 +21,21 @@ const SplashScreen = () => {
     };
   }, []);
 
-  if (!mounted) {
-    return (
-      <div className="fixed inset-0 z-[9999] bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 dark:from-gray-900 dark:via-purple-900 dark:to-black flex items-center justify-center">
-        <div className="text-center">
-          <Image
-            src="/EmoTunes-logo.png"
-            alt="EmoTunes Logo"
-            width={120}
-            height={120}
-            className="mx-auto drop-shadow-2xl"
-          />
-        </div>
-      </div>
-    );
-  }
+  // if (!mounted) {
+  //   return (
+  //     <div className="fixed inset-0 z-[9999] bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
+  //       <div className="text-center">
+  //         <Image
+  //           src="/EmoTunes-logo.png"
+  //           alt="EmoTunes Logo"
+  //           width={120}
+  //           height={120}
+  //           className="mx-auto drop-shadow-2xl"
+  //         />
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   // Animation variants
   const containerVariants = {
@@ -113,7 +113,7 @@ const SplashScreen = () => {
 
   return (
           <motion.div 
-      className="fixed inset-0 z-[9999] bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 dark:from-gray-900 dark:via-purple-900 dark:to-black flex items-center justify-center overflow-hidden"
+      className="fixed inset-0 z-[9999] bg-gradient-to-br dark:from-gray-900 dark:via-purple-900 dark:to-black flex items-center justify-center overflow-hidden"
       variants={containerVariants}
       initial="initial"
       animate="animate"

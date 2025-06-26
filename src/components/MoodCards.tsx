@@ -174,20 +174,20 @@ const MoodCards: React.FC<Props> = ({ onSelectMood, resetSignal }) => {
   return (
     <div className="relative">
       {/* Control buttons */}
-      <div className="w-full justify-between absolute top-1/2 left-2 z-20 flex gap-2 px-4">
+      {/* <div className="w-full justify-between absolute top-1/2 left-2 z-20 flex gap-2 px-4">
         <button
           onClick={handleLeft}
-          className="bg-black/50 hover:bg-black/70 text-white px-2 py-1 rounded-full text-sm transition-all duration-200"
+          className="bg-black/50 hover:bg-black/70 text-white px-2 py-1 rounded-full cursor-pointer text-sm transition-all duration-200"
         >
           ◀
         </button>
         <button
           onClick={handleRight}
-          className="bg-black/50 hover:bg-black/70 text-white px-2 py-1 rounded-full text-sm transition-all duration-200"
+          className="bg-black/50 hover:bg-black/70 text-white px-2 py-1 rounded-full cursor-pointer text-sm transition-all duration-200"
         >
           ▶
         </button>
-      </div>
+      </div> */}
       <div className="overflow-hidden py-2 sm:py-4 px-2 sm:px-4">
         <motion.div
           ref={containerRef}

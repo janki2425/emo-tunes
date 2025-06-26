@@ -13,26 +13,45 @@ const getSpotifyEmbedUrl = (url: string): string | null => {
   return null;
 };
 
+const SONGS_PER_PAGE = 10;
+
 const RandomSongs = () => {
   const [allSongs, setAllSongs] = useState<any[]>([]);
-  const [currentSongs, setCurrentSongs] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
   const {isMobile,isSmallMobile} = useIsMobile();
   const [modalSong, setModalSong] = useState<any | null>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
+  // Fetch songs for a given page
+  const fetchSongs = async (pageNum: number) => {
+    setLoading(true);
+    try {
+      const res = await axiosInstance.get(`api/get-tracks?page=${pageNum}&limit=${SONGS_PER_PAGE}`);
+      const newSongs = res.data.tracks || [];
+      if (pageNum === 1) {
+        setAllSongs(newSongs);
+      } else {
+        setAllSongs(prev => [...prev, ...newSongs]);
+      }
+      // If less than limit returned, no more songs
+      setHasMore(newSongs.length === SONGS_PER_PAGE);
+    } catch {
+      setHasMore(false);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
-    const fetchSongs = async () => {
-      try{
-        const res = await axiosInstance.get('api/get-tracks');
-        setAllSongs(res.data.tracks || []);
-      }
-      catch{
-        console.log("songs not found");
-      }
-      
-    };
-    fetchSongs();
+    fetchSongs(1);
   }, []);
+
+  const handleViewMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchSongs(nextPage);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -68,15 +87,15 @@ const RandomSongs = () => {
   const closeModal = () => setModalSong(null);
 
   return (
-    <div className="w-full mx-auto p-2">
+    <div className="w-full mx-auto p-2 mb-4">
       {/* Header */}
         <div className="flex items-center justify-start gap-2 mb-8">
-            <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-14 md:P-18 font-[500] rounded-[18px] transition-all duration-300'>All</button>
+            <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-14 md:P-18 font-[500] rounded-[18px] cursor-pointer transition-all duration-300'>All</button>
             {/* <button className='py-2 px-6 bg-[#06f050] hover:bg-[#1af306de] text-slate-600 P-14 md:P-18 font-[500] rounded-[20px] transition-all duration-300'>artist</button> */}
         </div>
 
       {/* Songs Grid */}
-      <div className={`grid gap-3 ${isSmallMobile ? 'grid-cols-2' : isMobile ? 'grid-cols-3' : ''} md:grid-cols-4 xl:grid-cols-5 transition-all duration-300`}>
+      <div className={`grid gap-3 mb-2 ${isSmallMobile ? 'grid-cols-2' : isMobile ? 'grid-cols-3' : ''} md:grid-cols-4 xl:grid-cols-5 transition-all duration-300`}>
         {allSongs.map((song, index) => (
           <motion.div
             key={index}
@@ -123,6 +142,11 @@ const RandomSongs = () => {
           </motion.div>
         ))}
       </div>
+      {hasMore && !loading && (
+        <div className='w-full flex justify-end transition-all duration-300'>
+          <button onClick={handleViewMore} className='P-14 p-2 border-[1px] font-[600] auth-signup-color cursor-pointer bg-transparent transition-all duration-300 outline-none'>View more</button>
+        </div>
+      )}
 
       {/* Modal Popup */}
       {modalSong && (
