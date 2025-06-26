@@ -12,6 +12,7 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import WebNavbar from '@/components/WebNavbar';
 import { useTheme } from 'next-themes';
 import { useSearch } from '@/context/SearchContext';
+import SearchModal from '@/components/SearchModal';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -65,6 +66,8 @@ function LayoutContent({ children }: { children: ReactNode }) {
               {isMobile && <Navbar />}
             </>
           )}
+          {/* Global Search Modal */}
+          <SearchModal />
           {children}
         </>
       )}

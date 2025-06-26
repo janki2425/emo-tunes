@@ -65,7 +65,11 @@ const SongList: React.FC<SongListProps> = ({ songs }) => {
 
   const visibleSongs = songs.slice(0, visibleCount);
 
-  if (!songs || songs.length === 0) return null;
+  if (!songs || songs.length === 0) {
+    return (
+      <div className='P-18'>No song available</div>
+    )
+  };
 
   return (
     <div className="w-full max-w-[1400px] mx-auto">

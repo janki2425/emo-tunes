@@ -21,7 +21,7 @@ export default function ThemeToggle() {
       setTheme(newTheme);
       console.log('Switching to:', newTheme, 'Current resolvedTheme:', resolvedTheme);
     }}
-      className='p-2 rounded-full'
+      className='p-2 rounded-full cursor-pointer'
     >
       {resolvedTheme === 'dark' ? (
         <Image

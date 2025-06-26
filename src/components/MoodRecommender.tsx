@@ -63,17 +63,6 @@ const MoodRecommender: React.FC<MoodRecommenderProps> = ({
     <div className="w-full max-w-[1440px] mx-auto mt-[35px] md:mt-[50px] pb-[40px] px-2 sm:px-4 space-y-4 sm:space-y-6">
       <div className={isResultShown ? 'hidden' : 'block'}>
 
-        {isSearchOpen && (
-          <div className="mb-8">
-            <MoodText
-              onTextSubmit={handleTextSearch}
-              text={text}
-              setText={setText}
-              onClose={handleCloseSearch}
-            />
-          </div>
-        )}
-
         <h3 className='P-18 md:h-24-120 font-[600] pt-8 bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent'>
           CHOOSE YOUR MOOD {'~'}
         </h3>

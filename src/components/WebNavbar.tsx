@@ -67,13 +67,13 @@ const WebNavbar = () => {
                         <>
                             <button
                                 onClick={handleSignUp}
-                                className='px-3 py-2 border-[2px] auth-signup-color rounded-[16px] P-12 md:P-14 font-[600] transition-all duration-300'
+                                className='px-3 py-2 border-[2px] auth-signup-color rounded-[16px] P-12 md:P-14 font-[600] cursor-pointer transition-all duration-300'
                             >
                                 Sign Up
                             </button>
                             <button 
                                 onClick={handleSignIn}
-                                className='px-3 py-2 border-[2px] auth-login-color P-12 md:P-14 font-[600] rounded-[16px] transition-all duration-300'
+                                className='px-3 py-2 border-[2px] auth-login-color P-12 md:P-14 font-[600] rounded-[16px] cursor-pointer transition-all duration-300'
                             >
                                 Sign In
                             </button>
@@ -82,33 +82,15 @@ const WebNavbar = () => {
                         <div className="relative">
                             <button 
                                 onClick={toggleDropdown}
-                                className='p-2 rounded-full hover:bg-gray-700 transition-colors'
+                                className='p-2 rounded-full hover:bg-gray-700 cursor-pointer transition-colors'
                             >
                                 <Image src={'/user-icon.svg'} width={40} height={40} alt='user'/>
                             </button>
                             {showDropdown && (
                                 <div className="absolute left-0 mt-2 w-48 bg-[#4d4d4d] rounded-xl shadow-lg py-2 z-10">
                                     <button
-                                        onClick={() => {
-                                            // router.push('/profile');
-                                            setShowDropdown(false);
-                                        }}
-                                        className="block w-full text-left px-4 py-2 text-[#DDD0C8] hover:bg-gray-700 P-14"
-                                    >
-                                        Profile
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            // router.push('/settings');
-                                            setShowDropdown(false);
-                                        }}
-                                        className="block w-full text-left px-4 py-2 text-[#DDD0C8] hover:bg-gray-700 P-14"
-                                    >
-                                        Settings
-                                    </button>
-                                    <button
                                         onClick={handleLogout}
-                                        className="block w-full text-left px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700 P-14"
+                                        className="block w-full text-left px-4 py-2 cursor-pointer text-red-600 hover:bg-gray-100 dark:hover:bg-gray-700 P-14"
                                     >
                                         Logout
                                     </button>

@@ -24,10 +24,10 @@ const MoodTextInput: React.FC<Props> = ({ onTextSubmit, text, setText, onClose }
   };
 
   return (
-    <div className="relative w-full flex pt-[50px] mx-auto bg-transparent rounded-3xl transition-all duration-300">
+    <div className="relativ w-full flex mx-auto bg-transparent rounded-xl transition-all duration-300">
       <textarea
         placeholder="I'm feeling excited about the weekend... or maybe a bit nostalgic about old memories..."
-        className={`w-full h-32 p-4 rounded-xl border-2 transition-all duration-200 outline-none resize-none `}
+        className={`w-full p-2 h-[100px] moodText-custom-color-bg rounded-xl border-2 transition-all duration-200 outline-none resize-none `}
         value={text}
         onChange={(e) => setText(e.target.value)}
         onFocus={() => setIsFocused(true)}
